@@ -3,4 +3,8 @@
     <string name="hello">Hello</string>
     <string name="john">John</string>
     <string name="search_elements">Search elements</string>
+    <string name="workbook_1">Workbook 1</string>
+    <string name="book_1">Book 1</string>
+    <string name="book_2">Book 2</string>
+    <string name="workbook_2">Workbook 2</string>
 </resources>
