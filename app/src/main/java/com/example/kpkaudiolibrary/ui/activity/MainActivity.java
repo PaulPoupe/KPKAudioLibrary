@@ -1,4 +1,4 @@
-package com.example.kpkaudiolibrary;
+package com.example.kpkaudiolibrary.ui.activity;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
@@ -10,6 +10,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.content.Intent;
+
+import com.example.kpkaudiolibrary.R;
 
 public class MainActivity extends AppCompatActivity {
 
