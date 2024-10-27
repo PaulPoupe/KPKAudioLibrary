@@ -7,4 +7,9 @@
     <string name="book_1">Book 1</string>
     <string name="book_2">Book 2</string>
     <string name="workbook_2">Workbook 2</string>
+    <string name="book_description">Book description</string>
+    <string name="lesson_number" >99</string>
+    <string name="lesson_name">Lesson name</string>
+    <string name="lesson_description">Lesson description</string>
+    <string name="book_name">Book name</string>
 </resources>

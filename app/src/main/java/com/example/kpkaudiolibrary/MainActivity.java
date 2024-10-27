@@ -9,11 +9,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.Intent;
+
 public class MainActivity extends AppCompatActivity {
-    private LinearLayout bookCard1;
-    private LinearLayout bookCard2;
-    private LinearLayout workbook1;
-    private LinearLayout workbook2;;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +24,27 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        bookCard1 = findViewById(R.id.layoutBook1);
-        bookCard2 = findViewById(R.id.layoutBook2);
-        workbook1 = findViewById(R.id.layoutWorkBook1);
-        workbook2 = findViewById(R.id.layoutWorkBook2);
+        LinearLayout bookCard1 = findViewById(R.id.layoutBook1);
+        LinearLayout bookCard2 = findViewById(R.id.layoutBook2);
+        LinearLayout workbook1 = findViewById(R.id.layoutWorkBook1);
+        LinearLayout workbook2 = findViewById(R.id.layoutWorkBook2);
+
+        bookCard1.setOnClickListener(v -> {
+            Intent intent = new Intent(this, contentsTable.class);
+            startActivity(intent);
+        });
+
+        bookCard2.setOnClickListener(v -> {
+
+        });
+
+        workbook1.setOnClickListener(v -> {
+
+        });
+
+        workbook2.setOnClickListener(v -> {
+
+        });
+
     }
 }
