@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
 
 import com.example.kpkaudiolibrary.R;
+import com.example.kpkaudiolibrary.data.repository.AudioPlayer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         bookCard2.setOnClickListener(v -> {
-
         });
 
         workbook1.setOnClickListener(v -> {

@@ -1,32 +1,39 @@
 package com.example.kpkaudiolibrary.data.model;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.TreeMap;
 
 public class Exercise {
-    public final HashMap<String, String> parts = new HashMap<>();
+    private final TreeMap<String, String> parts = new TreeMap<>();
+    public Exercise(String rawExercise) {
+        addPart(rawExercise);
+    }
 
-    public void addExerciseParts(File exerciseParts) {
-        String partIndex = extractLastPart(exerciseParts.toString());
+    public String getAudioFileName(String partName) throws Exception {
+        if (!parts.containsKey(partName)) {
+            throw new Exception("Not have such part");
+        }
+        return parts.get(partName);
+    }
 
-        if (!parts.containsKey(partIndex)) {
-            parts.put(partIndex, exerciseParts.getPath());
+    public int getPartsCount(){
+        return parts.size();
+    }
+
+    public void addPart(String rawExercisePart){
+        String partKey = getPartKey(rawExercisePart);
+
+        if (!parts.containsKey(partKey)){
+            parts.put(getPartKey(rawExercisePart), rawExercisePart);
         }
     }
 
-    public String extractLastPart(String fileName) {
-        // Регулярное выражение для поиска последней цифры или буквы после последнего подчеркивания
-        Pattern pattern = Pattern.compile("_(\\w)(?=\\.wav$)");
-        Matcher matcher = pattern.matcher(fileName);
+    private String getPartKey(String rawExercise){
+        String pattern = ".*_(\\d+|[a-z])\\.mp3";
 
-        // Если нашли букву или цифру после последнего подчеркивания, возвращаем её
-        if (matcher.find()) {
-            return matcher.group(1);
+        if (rawExercise.matches(pattern)) {
+            return rawExercise.replaceAll(pattern, "$1");
+        } else {
+            return "1";
         }
-
-        // Если ничего не найдено, возвращаем "1"
-        return "1";
     }
 }

@@ -1,41 +1,40 @@
 package com.example.kpkaudiolibrary.data.model;
 
+import android.content.Context;
+
 import java.io.File;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Lesson {
-    public final TreeMap<Integer, Exercise> exercises = new TreeMap<>();
+    private final TreeMap<Integer, Exercise> exercises = new TreeMap<>();
 
-    public void addExercise(File rawExerciseFile) {
-        int exercisesNumber = extractExerciseNumber(rawExerciseFile.getName());
+    public Lesson(String rawExercise){
+        putExercise(rawExercise);
+    }
+    public void putExercise (String rawExercise){
+        int exerciseNumber = getExerciseNumber(rawExercise);
 
-        if (!exercises.containsKey(exercisesNumber)) {
-            exercises.put(exercisesNumber, new Exercise());
+        if (!exercises.containsKey(exerciseNumber)){
+            exercises.put(exerciseNumber, new Exercise(rawExercise));
+        }else{
+            exercises.get(exerciseNumber).addPart(rawExercise);
         }
-        exercises.get(exercisesNumber).addExerciseParts(rawExerciseFile);
     }
 
-    private int extractExerciseNumber(String fileName) {
-        String keyword = "cwiczenie";
-        int index = fileName.toLowerCase().indexOf(keyword); // Поиск слова 'cwiczenie', с игнорированием регистра
+    public Exercise getExercise(int exerciseNumber){
+        return exercises.get(exerciseNumber);
+    }
+    private int getExerciseNumber(String rawExercise){
+        Pattern pattern = Pattern.compile("cwiczenie(\\d+)");
+        Matcher matcher = pattern.matcher(rawExercise);
 
-        if (index != -1) {
-            // Извлекаем подстроку сразу после 'cwiczenie'
-            StringBuilder number = new StringBuilder();
-            int i = index + keyword.length();
-
-            // Пока символ является цифрой, добавляем его к нашему числу
-            while (i < fileName.length() && Character.isDigit(fileName.charAt(i))) {
-                number.append(fileName.charAt(i));
-                i++;
-            }
-
-            // Если нашли цифры, преобразуем их в число
-            if (number.length() > 0) {
-                return Integer.parseInt(number.toString());
-            }
+        if (matcher.find()) {
+            String numberString = matcher.group(1);
+            return Integer.parseInt(numberString);
+        } else {
+            throw new NumberFormatException("Invalid string format");
         }
-
-        return -1; // Возвращаем -1, если слово 'cwiczenie' не найдено или нет чисел после него
     }
 }
