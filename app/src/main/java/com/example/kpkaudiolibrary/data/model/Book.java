@@ -2,9 +2,7 @@ package com.example.kpkaudiolibrary.data.model;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-
 import androidx.annotation.NonNull;
-
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.TreeMap;
@@ -28,6 +26,12 @@ public class Book implements Iterable<Lesson> {
         }
     }
 
+    @NonNull
+    @Override
+    public Iterator<Lesson> iterator() {
+        return lessons.values().iterator();
+    }
+
     public Lesson getLesson(Integer lessonNumber) {
         return lessons.get(lessonNumber);
     }
@@ -42,11 +46,5 @@ public class Book implements Iterable<Lesson> {
         } else {
             throw new NumberFormatException("Invalid string format");
         }
-    }
-
-    @NonNull
-    @Override
-    public Iterator<Lesson> iterator() {
-        return lessons.values().iterator();
     }
 }

@@ -5,23 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import com.example.kpkaudiolibrary.R;
 import com.example.kpkaudiolibrary.data.model.BookLibrary;
 import com.example.kpkaudiolibrary.data.model.Lesson;
-import com.example.kpkaudiolibrary.data.repository.AudioPlayer;
 
 import java.io.IOException;
 
 public class contentsTable extends AppCompatActivity {
-    private AudioPlayer audioPlayer = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,21 +30,21 @@ public class contentsTable extends AppCompatActivity {
 
         LinearLayout lessonsTable = findViewById(R.id.lessonList);
         LayoutInflater inflater = LayoutInflater.from(this);
-        BookLibrary bookLibrary = null;
+        BookLibrary bookLibrary;
         try {
-           bookLibrary = new BookLibrary(this);
+            bookLibrary = new BookLibrary(this);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
 
-        for (Lesson lesson : bookLibrary.getBook1()) {
+        for (Lesson lesson : bookLibrary.getBook(0)) {
             View lessonView = inflater.inflate(R.layout.lesson_item, lessonsTable, false);
 
             TextView lessonNumber = lessonView.findViewById(R.id.lesson_number);
             TextView lessonName = lessonView.findViewById(R.id.lesson_name);
 
-            lessonNumber.setText(String.valueOf( lesson.getLessonNumber()));
+            lessonNumber.setText(String.valueOf(lesson.getLessonNumber()));
             lessonName.setText("Lesson " + (lesson.getLessonNumber()));
 
             lessonsTable.addView(lessonView);

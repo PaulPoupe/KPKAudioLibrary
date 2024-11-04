@@ -1,15 +1,24 @@
 package com.example.kpkaudiolibrary.data.model;
 
 import androidx.annotation.NonNull;
-
 import java.util.Iterator;
 import java.util.TreeMap;
 
-public class Exercise implements Iterable<String>{
+public class Exercise implements Iterable<String> {
     private final TreeMap<String, String> parts = new TreeMap<>();
 
     public Exercise(String rawExercise) {
         addPart(rawExercise);
+    }
+
+    @NonNull
+    @Override
+    public Iterator<String> iterator() {
+        return parts.values().iterator();
+    }
+
+    public int getPartsCount() {
+        return parts.size();
     }
 
     public String getAudioFileName(String partName) throws Exception {
@@ -19,19 +28,15 @@ public class Exercise implements Iterable<String>{
         return parts.get(partName);
     }
 
-    public int getPartsCount(){
-        return parts.size();
-    }
-
-    public void addPart(String rawExercisePart){
+    public void addPart(String rawExercisePart) {
         String partKey = getPartKey(rawExercisePart);
 
-        if (!parts.containsKey(partKey)){
+        if (!parts.containsKey(partKey)) {
             parts.put(getPartKey(rawExercisePart), rawExercisePart);
         }
     }
 
-    private String getPartKey(String rawExercise){
+    private String getPartKey(String rawExercise) {
         String pattern = ".*_(\\d+|[a-z])\\.mp3";
 
         if (rawExercise.matches(pattern)) {
@@ -39,11 +44,5 @@ public class Exercise implements Iterable<String>{
         } else {
             return "1";
         }
-    }
-
-    @NonNull
-    @Override
-    public Iterator<String> iterator() {
-        return parts.values().iterator();
     }
 }
