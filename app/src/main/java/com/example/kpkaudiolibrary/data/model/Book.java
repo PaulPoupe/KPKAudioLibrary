@@ -3,13 +3,15 @@ package com.example.kpkaudiolibrary.data.model;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import java.io.File;
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Book {
+public class Book implements Iterable<Lesson> {
     private final TreeMap<Integer, Lesson> lessons = new TreeMap<>();
 
     public Book(Context context, String directoryPath) throws IOException {
@@ -40,5 +42,11 @@ public class Book {
         } else {
             throw new NumberFormatException("Invalid string format");
         }
+    }
+
+    @NonNull
+    @Override
+    public Iterator<Lesson> iterator() {
+        return lessons.values().iterator();
     }
 }

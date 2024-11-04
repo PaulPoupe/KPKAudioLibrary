@@ -2,12 +2,15 @@ package com.example.kpkaudiolibrary.data.model;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import java.io.File;
+import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Lesson {
+public class Lesson implements Iterable<Exercise>{
     private final TreeMap<Integer, Exercise> exercises = new TreeMap<>();
 
     public Lesson(String rawExercise){
@@ -36,5 +39,11 @@ public class Lesson {
         } else {
             throw new NumberFormatException("Invalid string format");
         }
+    }
+
+    @NonNull
+    @Override
+    public Iterator<Exercise> iterator() {
+       return exercises.values().iterator();
     }
 }

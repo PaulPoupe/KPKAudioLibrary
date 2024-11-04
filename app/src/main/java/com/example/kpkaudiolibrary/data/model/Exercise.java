@@ -1,8 +1,11 @@
 package com.example.kpkaudiolibrary.data.model;
 
+import androidx.annotation.NonNull;
+
+import java.util.Iterator;
 import java.util.TreeMap;
 
-public class Exercise {
+public class Exercise implements Iterable<String>{
     private final TreeMap<String, String> parts = new TreeMap<>();
     public Exercise(String rawExercise) {
         addPart(rawExercise);
@@ -35,5 +38,11 @@ public class Exercise {
         } else {
             return "1";
         }
+    }
+
+    @NonNull
+    @Override
+    public Iterator<String> iterator() {
+        return parts.values().iterator();
     }
 }
