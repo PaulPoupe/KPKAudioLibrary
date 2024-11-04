@@ -12,9 +12,11 @@ import java.util.regex.Pattern;
 
 public class Lesson implements Iterable<Exercise>{
     private final TreeMap<Integer, Exercise> exercises = new TreeMap<>();
+    private final int lessonNumber;
 
-    public Lesson(String rawExercise){
+    public Lesson(int lessonNumber, String rawExercise){
         putExercise(rawExercise);
+        this.lessonNumber = lessonNumber;
     }
     public void putExercise (String rawExercise){
         int exerciseNumber = getExerciseNumber(rawExercise);
@@ -39,6 +41,10 @@ public class Lesson implements Iterable<Exercise>{
         } else {
             throw new NumberFormatException("Invalid string format");
         }
+    }
+
+    public int getLessonNumber(){
+        return lessonNumber;
     }
 
     @NonNull

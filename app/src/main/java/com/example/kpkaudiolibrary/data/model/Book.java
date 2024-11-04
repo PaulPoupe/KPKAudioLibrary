@@ -21,7 +21,7 @@ public class Book implements Iterable<Lesson> {
         for (var rawExercise : rawExercises) {
             int lessonNumber = getLessonNumber(rawExercise);
             if (!lessons.containsKey(lessonNumber)) {
-                lessons.put(lessonNumber, new Lesson(rawExercise));
+                lessons.put(lessonNumber, new Lesson(lessonNumber, rawExercise));
             } else {
                 lessons.get(lessonNumber).putExercise(rawExercise);
             }

@@ -7,6 +7,7 @@ import java.util.TreeMap;
 
 public class Exercise implements Iterable<String>{
     private final TreeMap<String, String> parts = new TreeMap<>();
+
     public Exercise(String rawExercise) {
         addPart(rawExercise);
     }

@@ -18,4 +18,8 @@ public class BookLibrary {
         String audioFileAfd = "books/book1/" + book1.getLesson(lessonNumber).getExercise(exerciseNumber).getAudioFileName(partName);
         return context.getAssets().openFd(audioFileAfd);
     }
+
+    public Book getBook1(){
+        return book1;
+    }
 }
