@@ -3,23 +3,28 @@ package com.example.kpkaudiolibrary.data.model;
 import android.content.Context;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BookLibrary {
-    private ArrayList<Book> books = new ArrayList<>();
-    private ArrayList<Book> workBooks = new ArrayList<>();
-    private final Context context;
+    private final ArrayList<Book> books = new ArrayList<>();
+    private final ArrayList<Book> workBooks = new ArrayList<>();
 
     public BookLibrary(Context context) throws IOException {
-        this.context = context;
 
-        for (var folderName : context.getAssets().list("books")) {
+        for (var folderName : Objects.requireNonNull(context.getAssets().list("books"))) {
             books.add(new Book(context, "books/" + folderName));
         }
-        ;
+
+        for (var folderName : Objects.requireNonNull(context.getAssets().list("workbooks"))) {
+            workBooks.add(new Book(context, "workbooks/" + folderName));
+        }
     }
 
     public Book getBook(int bookNumber) {
         return books.get(bookNumber);
+    }
+    public Book getWorkBook(int workBookNumber) {
+        return workBooks.get(workBookNumber);
     }
 
     /*

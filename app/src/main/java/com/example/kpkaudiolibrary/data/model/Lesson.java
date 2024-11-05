@@ -2,6 +2,7 @@ package com.example.kpkaudiolibrary.data.model;
 
 import androidx.annotation.NonNull;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,13 +30,17 @@ public class Lesson implements Iterable<Exercise> {
         return lessonNumber;
     }
 
-    public void putExercise(String rawExercise) {
+    public void putExercise(String rawExercise) throws NullPointerException {
+        if(rawExercise == null){
+           throw new NullPointerException("Raw exercise is null");
+        }
+
         int exerciseNumber = getExerciseNumber(rawExercise);
 
         if (!exercises.containsKey(exerciseNumber)) {
             exercises.put(exerciseNumber, new Exercise(rawExercise));
         } else {
-            exercises.get(exerciseNumber).addPart(rawExercise);
+            Objects.requireNonNull(exercises.get(exerciseNumber), "Exercise is null").addPart(rawExercise);
         }
     }
 

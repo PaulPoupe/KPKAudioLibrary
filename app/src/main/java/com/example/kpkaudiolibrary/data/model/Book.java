@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import androidx.annotation.NonNull;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,13 +17,13 @@ public class Book implements Iterable<Lesson> {
         AssetManager assetManager = context.getAssets();
         String[] rawExercises = assetManager.list(directoryPath);
 
-        for (var rawExercise : rawExercises) {
+        for (var rawExercise : Objects.requireNonNull(rawExercises, "Exercises is null")) {
             int lessonNumber = getLessonNumber(rawExercise);
+
             if (!lessons.containsKey(lessonNumber)) {
                 lessons.put(lessonNumber, new Lesson(lessonNumber, rawExercise));
-            } else {
-                lessons.get(lessonNumber).putExercise(rawExercise);
             }
+                Objects.requireNonNull(lessons.get(lessonNumber)).putExercise(rawExercise);
         }
     }
 
