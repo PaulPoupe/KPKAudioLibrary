@@ -12,6 +12,11 @@ import java.util.regex.Pattern;
 
 public class Book implements Iterable<Lesson> {
     private final TreeMap<Integer, Lesson> lessons = new TreeMap<>();
+    private String BookName;
+    private String Description;
+
+    //private BookType bookType;
+
 
     public Book(Context context, String directoryPath) throws IOException {
         AssetManager assetManager = context.getAssets();
