@@ -24,25 +24,38 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        Intent intent = new Intent(this, lessonsTable.class);
         LinearLayout bookCard1 = findViewById(R.id.layoutBook1);
         LinearLayout bookCard2 = findViewById(R.id.layoutBook2);
         LinearLayout workbook1 = findViewById(R.id.layoutWorkBook1);
         LinearLayout workbook2 = findViewById(R.id.layoutWorkBook2);
 
         bookCard1.setOnClickListener(v -> {
-            Intent intent = new Intent(this, contentsTable.class);
+            intent.putExtra("bookName","Krok po kroku 1" );
+            intent.putExtra("bookDescription", "Podręcznik");
+            intent.putExtra("bookNumber",0 );
             startActivity(intent);
         });
 
         bookCard2.setOnClickListener(v -> {
+            intent.putExtra("bookName","Krok po kroku 2" );
+            intent.putExtra("bookDescription", "Podręcznik");
+            intent.putExtra("bookNumber",1 );
+            startActivity(intent);
         });
 
         workbook1.setOnClickListener(v -> {
-
+            intent.putExtra("bookName","Krok po kroku 1" );
+            intent.putExtra("bookDescription", "Zeszyt cwiczen");
+            intent.putExtra("workbookNumber",0 );
+            startActivity(intent);
         });
 
         workbook2.setOnClickListener(v -> {
-
+            intent.putExtra("bookName","Krok po kroku 2" );
+            intent.putExtra("bookDescription", "Zeszyt cwiczen");
+            intent.putExtra("workbookNumber",1);
+            startActivity(intent);
         });
     }
 }

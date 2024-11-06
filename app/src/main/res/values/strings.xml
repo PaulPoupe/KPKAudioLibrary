@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">KPKAudioLibrary</string>
-    <string name="hello">Hello</string>
-    <string name="john">John</string>
-    <string name="search_elements">Search elements</string>
     <string name="workbook_1">Workbook 1</string>
     <string name="book_1">Book 1</string>
     <string name="book_2">Book 2</string>
@@ -12,4 +9,6 @@
     <string name="lesson_number">99</string>
     <string name="lesson_name">Lesson name</string>
     <string name="lesson_description">Lesson description</string>
+    <string name="companyName">E-Polish</string>
+    <string name="search_book">Search book</string>
 </resources>

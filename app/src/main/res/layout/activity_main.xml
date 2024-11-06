@@ -22,23 +22,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
-            android:text="@string/hello"
+            android:text="@string/companyName"
             android:textColor="@color/colorWhite"
             android:textSize="25sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <TextView
-            android:id="@+id/textUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="15dp"
-            android:text="@string/john"
-            android:textColor="@color/colorWhite"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/textHello"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
@@ -70,7 +57,7 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:background="@null"
-                android:hint="@string/search_elements"
+                android:hint="@string/search_book"
                 android:imeOptions="actionSearch"
                 android:importantForAutofill="no"
                 android:inputType="text"
