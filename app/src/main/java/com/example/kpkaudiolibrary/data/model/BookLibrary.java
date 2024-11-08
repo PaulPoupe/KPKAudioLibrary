@@ -1,39 +1,43 @@
 package com.example.kpkaudiolibrary.data.model;
 
 import android.content.Context;
+
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
 
-public class BookLibrary {
+public class BookLibrary implements Iterable<Book> {
+
+    private final static String BOOKS_FOLDER = "books";
+    private final static String WORKBOOKS_FOLDER = "workbooks";
     private final ArrayList<Book> books = new ArrayList<>();
-    private final ArrayList<Book> workBooks = new ArrayList<>();
+
+    @NonNull
+    @Override
+    public Iterator<Book> iterator() {
+        return books.iterator();
+    }
 
     public BookLibrary(Context context) {
-
         try {
-            for (var folderName : Objects.requireNonNull(context.getAssets().list("books"))) {
-                books.add(new Book(context, "books/" + folderName ));
+            for (var folderName : Objects.requireNonNull(context.getAssets().list(BOOKS_FOLDER))) {
+                books.add(new Book(context, folderName, BookTypes.Book,BOOKS_FOLDER + '/' + folderName ));
             }
 
-            for (var folderName : Objects.requireNonNull(context.getAssets().list("workbooks"))) {
-                workBooks.add(new Book(context, "workbooks/" + folderName));
+            for (var folderName : Objects.requireNonNull(context.getAssets().list(WORKBOOKS_FOLDER))) {
+                books.add(new Book(context, folderName, BookTypes.Workbook, + '/' + folderName));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Book getBook(int bookNumber) {
-        return books.get(bookNumber);
-    }
-    public Book getWorkBook(int workBookNumber) {
-        return workBooks.get(workBookNumber);
-    }
-
     /*
     public AssetFileDescriptor getAudioFileAfd(int bookNumber, int lessonNumber, int exerciseNumber, String partName) throws Exception {
-        String audioFileAfd = "books/book1/" + books.get(bookNumber).getLesson(lessonNumber).getExercise(exerciseNumber).getAudioFileName(partName);
+        String audioFileAfd = "books/A1/" + books.get(bookNumber).getLesson(lessonNumber).getExercise(exerciseNumber).getAudioFileName(partName);
         return context.getAssets().openFd(audioFileAfd);
     }
      */

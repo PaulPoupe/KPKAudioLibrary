@@ -1,19 +1,23 @@
 package com.example.kpkaudiolibrary.data.model;
 
 import androidx.annotation.NonNull;
+
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Lesson implements Iterable<Exercise> {
+public class Lesson implements Iterable<Exercise>, Serializable {
     private final TreeMap<Integer, Exercise> exercises = new TreeMap<>();
     private final int lessonNumber;
+    private final String lessonName;
 
     public Lesson(int lessonNumber, String rawExercise) {
         putExercise(rawExercise);
         this.lessonNumber = lessonNumber;
+        this.lessonName = "Затычка";
     }
 
     @NonNull
@@ -28,6 +32,10 @@ public class Lesson implements Iterable<Exercise> {
 
     public int getLessonNumber() {
         return lessonNumber;
+    }
+
+    public String getLessonName() {
+        return lessonName;
     }
 
     public void putExercise(String rawExercise) throws NullPointerException {

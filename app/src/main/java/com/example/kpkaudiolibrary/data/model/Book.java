@@ -3,33 +3,33 @@ package com.example.kpkaudiolibrary.data.model;
 import android.content.Context;
 import android.content.res.AssetManager;
 import androidx.annotation.NonNull;
+
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Book implements Iterable<Lesson> {
+public class Book implements Iterable<Lesson>, Serializable {
     private final TreeMap<Integer, Lesson> lessons = new TreeMap<>();
-    private String BookName;
-    private String Description;
 
-    //private BookType bookType;
+    private final LanguageLevel languageLevel;
+    private final BookTypes bookType;
+    private final int iconId;
 
+    public Book(Context context, String folderName, BookTypes bookType, String directoryPath) throws IOException {
+        BookAssetRepository assetRepository = new BookAssetRepository();
 
-    public Book(Context context, String directoryPath) throws IOException {
         AssetManager assetManager = context.getAssets();
         String[] rawExercises = assetManager.list(directoryPath);
 
-        for (var rawExercise : Objects.requireNonNull(rawExercises, "Exercises is null")) {
-            int lessonNumber = getLessonNumber(rawExercise);
+        this.bookType = bookType;
+        languageLevel = LanguageLevel.valueOf(folderName);
+        iconId = assetRepository.getBookAsset(languageLevel, bookType).getIconId();
 
-            if (!lessons.containsKey(lessonNumber)) {
-                lessons.put(lessonNumber, new Lesson(lessonNumber, rawExercise));
-            }
-                Objects.requireNonNull(lessons.get(lessonNumber)).putExercise(rawExercise);
-        }
+        putLessons(rawExercises);
     }
 
     @NonNull
@@ -38,11 +38,34 @@ public class Book implements Iterable<Lesson> {
         return lessons.values().iterator();
     }
 
+    public LanguageLevel getLanguageLevel(){
+        return languageLevel;
+    }
+
+    public BookTypes getBookType(){
+        return bookType;
+    }
+
+    public int getIconId(){
+        return iconId;
+    }
+
     public Lesson getLesson(Integer lessonNumber) {
         return lessons.get(lessonNumber);
     }
 
-    private int getLessonNumber(String rawExercise) {
+    private void putLessons(String[] rawExercises) {
+        for (var rawExercise : Objects.requireNonNull(rawExercises, "Exercises is null")) {
+            int lessonNumber = separateLessonNumber(rawExercise);
+
+            if (!lessons.containsKey(lessonNumber)) {
+                lessons.put(lessonNumber, new Lesson(lessonNumber, rawExercise));
+            }
+            Objects.requireNonNull(lessons.get(lessonNumber)).putExercise(rawExercise);
+        }
+    }
+
+    private int separateLessonNumber(String rawExercise) {
         Pattern pattern = Pattern.compile("l(\\d+)");
         Matcher matcher = pattern.matcher(rawExercise);
 
@@ -53,4 +76,5 @@ public class Book implements Iterable<Lesson> {
             throw new NumberFormatException("Invalid string format");
         }
     }
+
 }

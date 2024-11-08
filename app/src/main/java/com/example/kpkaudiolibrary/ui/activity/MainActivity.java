@@ -1,17 +1,32 @@
 package com.example.kpkaudiolibrary.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import android.content.Intent;
+
+import android.widget.TextView;
+
 import com.example.kpkaudiolibrary.R;
+import com.example.kpkaudiolibrary.data.model.BookLibrary;
+import com.example.kpkaudiolibrary.data.model.LanguageLevel;
+
+import java.util.Objects;
+import java.util.TreeMap;
 
 
 public class MainActivity extends AppCompatActivity {
+    public final static String BOOK_KEY = "book";
+    private BookLibrary bookLibrary;
+    private final TreeMap<LanguageLevel, LinearLayout> booksLayouts = new TreeMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,38 +39,53 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        Intent intent = new Intent(this, lessonsTable.class);
-        LinearLayout bookCard1 = findViewById(R.id.layoutBook1);
-        LinearLayout bookCard2 = findViewById(R.id.layoutBook2);
-        LinearLayout workbook1 = findViewById(R.id.layoutWorkBook1);
-        LinearLayout workbook2 = findViewById(R.id.layoutWorkBook2);
+         bookLibrary =  new BookLibrary(this);
+         LinearLayout root = findViewById(R.id.layout_main);
 
-        bookCard1.setOnClickListener(v -> {
-            intent.putExtra("bookName","Krok po kroku 1" );
-            intent.putExtra("bookDescription", "Podręcznik");
-            intent.putExtra("bookNumber",0 );
-            startActivity(intent);
-        });
+         createBooksPanels(root);
 
-        bookCard2.setOnClickListener(v -> {
-            intent.putExtra("bookName","Krok po kroku 2" );
-            intent.putExtra("bookDescription", "Podręcznik");
-            intent.putExtra("bookNumber",1 );
-            startActivity(intent);
-        });
 
-        workbook1.setOnClickListener(v -> {
-            intent.putExtra("bookName","Krok po kroku 1" );
-            intent.putExtra("bookDescription", "Zeszyt cwiczen");
-            intent.putExtra("workbookNumber",0 );
-            startActivity(intent);
-        });
+//        bookCard1.setOnClickListener(v -> {
+//            Intent intent = new Intent(this, lessonsTable.class);
+//            intent.putExtra(BOOK_KEY,  bookLibrary);
+//           startActivity(intent);
+//       });
 
-        workbook2.setOnClickListener(v -> {
-            intent.putExtra("bookName","Krok po kroku 2" );
-            intent.putExtra("bookDescription", "Zeszyt cwiczen");
-            intent.putExtra("workbookNumber",1);
-            startActivity(intent);
-        });
+
+    }
+
+    private void createBooksPanels(ViewGroup root) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        for(var book : bookLibrary){
+            View bookView;
+
+            if(!booksLayouts.containsKey(book.getLanguageLevel())) {
+                booksLayouts.put(book.getLanguageLevel(), createBooksLayout(root));
+            }
+            bookView = inflater.inflate(R.layout.book_item, booksLayouts.get(book.getLanguageLevel()), false);
+            TextView bookName = bookView.findViewById(R.id.book_name);
+            ImageView bookImage = bookView.findViewById(R.id.book_image);
+
+            bookName.setText(book.getBookType().name());
+            bookImage.setImageResource(book.getIconId());
+
+            bookView.setOnClickListener(v -> {
+                Intent intent = new Intent(this, lessonsTable.class);
+                intent.putExtra(BOOK_KEY, book);
+                startActivity(intent);
+            });
+
+            Objects.requireNonNull(booksLayouts.get(book.getLanguageLevel())).addView(bookView);
+        }
+    }
+
+    private LinearLayout createBooksLayout(ViewGroup root){
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout booksLayout = new LinearLayout(this);
+        booksLayout.setOrientation(LinearLayout.HORIZONTAL);
+        booksLayout.setBaselineAligned(false);
+        root.addView(booksLayout, layoutParams);
+        return booksLayout;
     }
 }

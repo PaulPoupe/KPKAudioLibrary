@@ -1,10 +1,12 @@
 package com.example.kpkaudiolibrary.data.model;
 
 import androidx.annotation.NonNull;
+
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-public class Exercise implements Iterable<String> {
+public class Exercise implements Iterable<String>, Serializable {
     private final TreeMap<String, String> parts = new TreeMap<>();
 
     public Exercise(String rawExercise) {
