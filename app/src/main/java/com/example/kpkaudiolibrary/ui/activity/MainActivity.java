@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             TextView bookName = bookView.findViewById(R.id.book_name);
             ImageView bookImage = bookView.findViewById(R.id.book_image);
 
-            bookName.setText(book.getBookType().name());
+            bookName.setText(book.getBookType().name() + " " +book.getLanguageLevel().name());
             bookImage.setImageResource(book.getIconId());
 
             bookView.setOnClickListener(v -> {

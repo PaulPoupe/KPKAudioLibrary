@@ -49,7 +49,7 @@ public class lessonsTable extends AppCompatActivity {
     }
 
     private void initializeHeaderOfActivity() {
-        bookName.setText(R.string.book_name + book.getLanguageLevel().name());
+        bookName.setText("Krok po kroku " + book.getLanguageLevel().name());
         bookDescription.setText(book.getBookType().name());
     }
 
