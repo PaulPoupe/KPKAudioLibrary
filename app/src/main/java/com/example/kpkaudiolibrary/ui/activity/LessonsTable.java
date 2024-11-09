@@ -1,5 +1,6 @@
 package com.example.kpkaudiolibrary.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +15,19 @@ import com.example.kpkaudiolibrary.R;
 import com.example.kpkaudiolibrary.data.model.Book;
 import com.example.kpkaudiolibrary.data.model.Lesson;
 
-public class lessonsTable extends AppCompatActivity {
+public class LessonsTable extends AppCompatActivity {
+    public static final String LESSON_KEY = "lesson";
     private Book book;
-    private LinearLayout lessonsTable;
     private TextView bookName;
     private TextView bookDescription;
+    LinearLayout lessonsTable;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_contents_table);
+        setContentView(R.layout.activity_lessons_table);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -38,7 +40,12 @@ public class lessonsTable extends AppCompatActivity {
         book = takeBook();
 
         initializeHeaderOfActivity();
-        createLessonPanels(book, lessonsTable);
+        createLessonPanels();
+    }
+
+    private void initializeHeaderOfActivity() {
+        bookName.setText("Krok po kroku " + book.getLanguageLevel().name());
+        bookDescription.setText(book.getBookType().name());
     }
 
     private Book takeBook() {
@@ -48,12 +55,7 @@ public class lessonsTable extends AppCompatActivity {
         return book;
     }
 
-    private void initializeHeaderOfActivity() {
-        bookName.setText("Krok po kroku " + book.getLanguageLevel().name());
-        bookDescription.setText(book.getBookType().name());
-    }
-
-    private void createLessonPanels(Book book, LinearLayout lessonsTable) {
+    private void createLessonPanels() {
         LayoutInflater inflater = LayoutInflater.from(this);
 
         for (Lesson lesson : book) {
@@ -64,6 +66,12 @@ public class lessonsTable extends AppCompatActivity {
 
             lessonNumber.setText(String.valueOf(lesson.getLessonNumber()));
             lessonName.setText(lesson.getLessonName());
+
+            lessonView.setOnClickListener(v -> {
+                Intent intent = new Intent(this, ExercisesTable.class);
+                intent.putExtra(LESSON_KEY, lesson);
+                startActivity(intent);
+            });
 
             lessonsTable.addView(lessonView);
         }

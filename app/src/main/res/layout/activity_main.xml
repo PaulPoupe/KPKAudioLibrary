@@ -35,12 +35,13 @@
             android:layout_marginEnd="15dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_menu"
-            app:tint="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="@id/textHello"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textHello" />
+            app:layout_constraintTop_toTopOf="@id/textHello"
+            app:tint="@color/colorWhite" />
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -64,7 +65,8 @@
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
                 android:textColor="@color/colorAccent"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:ignore="VisualLintTextFieldSize" />
 
             <ImageView
                 android:layout_width="48dp"
@@ -80,18 +82,20 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:overScrollMode="never"
         android:scrollbars="none"
-        app:layout_constraintTop_toBottomOf="@id/layoutHeader"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutHeader">
 
         <LinearLayout
             android:id="@+id/layout_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
             android:orientation="vertical"
-            android:padding="10dp"/>
+            android:padding="10dp" />
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

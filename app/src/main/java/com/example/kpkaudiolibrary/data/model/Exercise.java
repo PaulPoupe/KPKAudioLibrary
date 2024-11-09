@@ -8,9 +8,11 @@ import java.util.TreeMap;
 
 public class Exercise implements Iterable<String>, Serializable {
     private final TreeMap<String, String> parts = new TreeMap<>();
+    private final int exerciseNumber;
 
-    public Exercise(String rawExercise) {
+    public Exercise(String rawExercise, int exerciseNumber) {
         addPart(rawExercise);
+        this.exerciseNumber = exerciseNumber;
     }
 
     @NonNull
@@ -28,6 +30,10 @@ public class Exercise implements Iterable<String>, Serializable {
             throw new Exception("Not have such part");
         }
         return parts.get(partName);
+    }
+
+    public int getExerciseNumber() {
+        return exerciseNumber;
     }
 
     public void addPart(String rawExercisePart) {

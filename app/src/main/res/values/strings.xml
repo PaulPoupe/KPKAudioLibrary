@@ -11,4 +11,6 @@
     <string name="lesson_description">Lesson description</string>
     <string name="companyName">E-Polish</string>
     <string name="search_book">Search book</string>
+    <string name="books">Books</string>
+    <string name="exercise_number">99</string>
 </resources>

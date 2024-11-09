@@ -46,7 +46,7 @@ public class Lesson implements Iterable<Exercise>, Serializable {
         int exerciseNumber = getExerciseNumber(rawExercise);
 
         if (!exercises.containsKey(exerciseNumber)) {
-            exercises.put(exerciseNumber, new Exercise(rawExercise));
+            exercises.put(exerciseNumber, new Exercise(rawExercise, exerciseNumber));
         } else {
             Objects.requireNonNull(exercises.get(exerciseNumber), "Exercise is null").addPart(rawExercise);
         }
