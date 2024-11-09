@@ -5,6 +5,5 @@
         android:angle="0"
         android:endColor="@color/colorLessonItemEnd"
         android:startColor="@color/colorLessonItemStart"/>
-    <corners android:radius="10dp"/>"
-
+    <corners android:radius="10dp"/>
 </shape>

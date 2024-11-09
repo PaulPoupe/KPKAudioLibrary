@@ -61,7 +61,7 @@ public class Book implements Iterable<Lesson>, Serializable {
             int lessonNumber = separateLessonNumber(rawExercise);
 
             if (!lessons.containsKey(lessonNumber)) {
-                lessons.put(lessonNumber, new Lesson(lessonNumber, rawExercise));
+                lessons.put(lessonNumber, new Lesson(lessonNumber, rawExercise, languageLevel));
             }
             Objects.requireNonNull(lessons.get(lessonNumber)).putExercise(rawExercise);
         }

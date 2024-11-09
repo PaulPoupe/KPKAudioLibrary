@@ -23,9 +23,6 @@ public class BookAssetRepository {
         return null;
     }
 
-
-
-
     public class BookAsset {
         private final LanguageLevel languageLevel;
         private final BookTypes bookType;

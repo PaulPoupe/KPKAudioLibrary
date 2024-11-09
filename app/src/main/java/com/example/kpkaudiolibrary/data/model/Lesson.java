@@ -2,6 +2,8 @@ package com.example.kpkaudiolibrary.data.model;
 
 import androidx.annotation.NonNull;
 
+import com.example.kpkaudiolibrary.data.model.assetRepository.LessonAssetRepository;
+
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Objects;
@@ -14,10 +16,13 @@ public class Lesson implements Iterable<Exercise>, Serializable {
     private final int lessonNumber;
     private final String lessonName;
 
-    public Lesson(int lessonNumber, String rawExercise) {
+    public Lesson(int lessonNumber, String rawExercise, LanguageLevel languageLevel) {
+        LessonAssetRepository lessonAssetRepository = new LessonAssetRepository();
+
         putExercise(rawExercise);
+
         this.lessonNumber = lessonNumber;
-        this.lessonName = "Затычка";
+        this.lessonName = lessonAssetRepository.getLessonAsset(languageLevel, lessonNumber).getName();
     }
 
     @NonNull
