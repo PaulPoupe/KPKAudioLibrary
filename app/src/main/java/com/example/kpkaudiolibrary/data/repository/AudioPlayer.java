@@ -18,6 +18,11 @@ public class AudioPlayer {
     }
 
     public void play(Part part) throws Exception {
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+        }
+
         AssetFileDescriptor audioAfd = getAssetFileDescriptor(part.getAudioFilePath());
 
         mediaPlayer.setDataSource(audioAfd.getFileDescriptor(), audioAfd.getStartOffset(), audioAfd.getLength());

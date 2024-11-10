@@ -24,6 +24,7 @@ public class ExercisesTable extends AppCompatActivity {
     private Lesson lesson;
     private TextView lessonName;
     private LinearLayout exercisesList;
+    AudioPlayer audioPlayer;
 
 
     @Override
@@ -40,6 +41,7 @@ public class ExercisesTable extends AppCompatActivity {
         lessonName = findViewById(R.id.lesson_name);
         lesson = takeLesson();
         exercisesList = findViewById(R.id.exerciseList);
+        audioPlayer = new AudioPlayer(this);
 
         initializeHeaderOfActivity();
         createExercisePanels();
@@ -81,7 +83,6 @@ public class ExercisesTable extends AppCompatActivity {
             //partName.setText(part.get())
 
             partView.setOnClickListener(v -> {
-                AudioPlayer audioPlayer = new AudioPlayer(this);
                 try {
                     audioPlayer.play(part);
                 } catch (Exception e) {
