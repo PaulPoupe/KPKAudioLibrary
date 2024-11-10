@@ -77,10 +77,15 @@ public class ExercisesTable extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
 
         for (var part : exercise){
-            View partView = inflater.inflate(R.layout.exercise_part_button, partsRoot, false);
+            View partView;
 
-            TextView partName = partView.findViewById(R.id.exercise_part_button);
-            //partName.setText(part.get())
+            if (!(exercise.getPartsCount() ==1)) {
+                partView = inflater.inflate(R.layout.exercise_part_button, partsRoot, false);
+                TextView partName = partView.findViewById(R.id.exercise_part_button);
+                partName.setText(part.getName());
+            }else{
+                partView = inflater.inflate(R.layout.exercise_start_button, partsRoot, false);
+            }
 
             partView.setOnClickListener(v -> {
                 try {

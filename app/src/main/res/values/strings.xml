@@ -14,4 +14,5 @@
     <string name="books">Books</string>
     <string name="exercise_number">99</string>
     <string name="exercisePartName">B</string>
+    <string name="startButton">Start</string>
 </resources>
