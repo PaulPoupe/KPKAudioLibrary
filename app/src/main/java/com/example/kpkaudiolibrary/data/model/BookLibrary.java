@@ -34,11 +34,4 @@ public class BookLibrary implements Iterable<Book> {
             throw new RuntimeException(e);
         }
     }
-
-    /*
-    public AssetFileDescriptor getAudioFileAfd(int bookNumber, int lessonNumber, int exerciseNumber, String partName) throws Exception {
-        String audioFileAfd = "books/A1/" + books.get(bookNumber).getLesson(lessonNumber).getExercise(exerciseNumber).getAudioFileName(partName);
-        return context.getAssets().openFd(audioFileAfd);
-    }
-     */
 }

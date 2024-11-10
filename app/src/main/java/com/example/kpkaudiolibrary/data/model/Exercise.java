@@ -6,30 +6,25 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-public class Exercise implements Iterable<String>, Serializable {
-    private final TreeMap<String, String> parts = new TreeMap<>();
+public class Exercise implements Iterable<Part>, Serializable {
+    private final Book book;
+    private final TreeMap<String, Part> parts = new TreeMap<>();
     private final int exerciseNumber;
 
-    public Exercise(String rawExercise, int exerciseNumber) {
-        addPart(rawExercise);
+    public Exercise(String rawExercise, int exerciseNumber, Book book) {
+        this.book = book;
         this.exerciseNumber = exerciseNumber;
+        addPart(rawExercise);
     }
 
     @NonNull
     @Override
-    public Iterator<String> iterator() {
+    public Iterator<Part> iterator() {
         return parts.values().iterator();
     }
 
     public int getPartsCount() {
         return parts.size();
-    }
-
-    public String getAudioFileName(String partName) throws Exception {
-        if (!parts.containsKey(partName)) {
-            throw new Exception("Not have such part");
-        }
-        return parts.get(partName);
     }
 
     public int getExerciseNumber() {
@@ -40,7 +35,7 @@ public class Exercise implements Iterable<String>, Serializable {
         String partKey = getPartKey(rawExercisePart);
 
         if (!parts.containsKey(partKey)) {
-            parts.put(getPartKey(rawExercisePart), rawExercisePart);
+            parts.put(partKey, new Part(partKey, rawExercisePart, book));
         }
     }
 

@@ -13,16 +13,18 @@ import java.util.regex.Pattern;
 
 public class Lesson implements Iterable<Exercise>, Serializable {
     private final TreeMap<Integer, Exercise> exercises = new TreeMap<>();
+    private final Book book;
     private final int lessonNumber;
     private final String lessonName;
 
-    public Lesson(int lessonNumber, String rawExercise, LanguageLevel languageLevel) {
+    public Lesson(int lessonNumber, String rawExercise, Book book) {
         LessonAssetRepository lessonAssetRepository = new LessonAssetRepository();
+        this.book = book;
 
         putExercise(rawExercise);
 
         this.lessonNumber = lessonNumber;
-        this.lessonName = lessonAssetRepository.getLessonAsset(languageLevel, lessonNumber).getName();
+        this.lessonName = lessonAssetRepository.getLessonAsset(book.getLanguageLevel(), lessonNumber).getName();
     }
 
     @NonNull
@@ -51,7 +53,7 @@ public class Lesson implements Iterable<Exercise>, Serializable {
         int exerciseNumber = getExerciseNumber(rawExercise);
 
         if (!exercises.containsKey(exerciseNumber)) {
-            exercises.put(exerciseNumber, new Exercise(rawExercise, exerciseNumber));
+            exercises.put(exerciseNumber, new Exercise(rawExercise, exerciseNumber, book));
         } else {
             Objects.requireNonNull(exercises.get(exerciseNumber), "Exercise is null").addPart(rawExercise);
         }

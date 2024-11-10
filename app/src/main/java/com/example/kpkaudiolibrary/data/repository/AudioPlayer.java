@@ -1,12 +1,25 @@
 package com.example.kpkaudiolibrary.data.repository;
 
+import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 
-public class AudioPlayer {
-    MediaPlayer mediaPlayer = new MediaPlayer();
+import com.example.kpkaudiolibrary.data.model.Part;
 
-    public void play(AssetFileDescriptor audioAfd) throws Exception {
+import java.io.IOException;
+
+public class AudioPlayer {
+    private final MediaPlayer mediaPlayer = new MediaPlayer();
+    private final Context context;
+
+
+    public AudioPlayer(Context context) {
+        this.context = context;
+    }
+
+    public void play(Part part) throws Exception {
+        AssetFileDescriptor audioAfd = getAssetFileDescriptor(part.getAudioFilePath());
+
         mediaPlayer.setDataSource(audioAfd.getFileDescriptor(), audioAfd.getStartOffset(), audioAfd.getLength());
         audioAfd.close();
 
@@ -16,5 +29,9 @@ public class AudioPlayer {
         mediaPlayer.setOnCompletionListener(mp -> {
             mp.release();
         });
+    }
+
+    private AssetFileDescriptor getAssetFileDescriptor(String path) throws IOException {
+        return context.getAssets().openFd(path);
     }
 }

@@ -3,6 +3,7 @@ package com.example.kpkaudiolibrary.ui.activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.kpkaudiolibrary.R;
 import com.example.kpkaudiolibrary.data.model.Exercise;
 import com.example.kpkaudiolibrary.data.model.Lesson;
+import com.example.kpkaudiolibrary.data.repository.AudioPlayer;
 
 import java.util.Objects;
 
@@ -22,6 +24,7 @@ public class ExercisesTable extends AppCompatActivity {
     private Lesson lesson;
     private TextView lessonName;
     private LinearLayout exercisesList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +59,36 @@ public class ExercisesTable extends AppCompatActivity {
     private void createExercisePanels() {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        for (Exercise exercises : lesson) {
+        for (Exercise exercise : lesson) {
             View exerciseView = inflater.inflate(R.layout.exercise_item, exercisesList, false);
 
             TextView exerciseNumber = exerciseView.findViewById(R.id.exercise_number);
+            LinearLayout exercisePartsRoot = exerciseView.findViewById(R.id.part_buttons_root);
 
-            exerciseNumber.setText(String.valueOf(exercises.getExerciseNumber()));
-
+            exerciseNumber.setText(String.valueOf(exercise.getExerciseNumber()));
+            createExercisePartsPanels(exercise, exercisePartsRoot);
             exercisesList.addView(exerciseView);
+        }
+    }
+
+    private void createExercisePartsPanels(Exercise exercise, ViewGroup partsRoot){
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        for (var part : exercise){
+            View partView = inflater.inflate(R.layout.exercise_part_button, partsRoot, false);
+
+            TextView partName = partView.findViewById(R.id.exercise_part_button);
+            //partName.setText(part.get())
+
+            partView.setOnClickListener(v -> {
+                AudioPlayer audioPlayer = new AudioPlayer(this);
+                try {
+                    audioPlayer.play(part);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            partsRoot.addView(partView);
         }
     }
 }
