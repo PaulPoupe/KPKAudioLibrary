@@ -52,10 +52,8 @@ public class ExercisesTable extends AppCompatActivity {
     }
 
     private Lesson takeLesson() {
-        LinearLayout exercisesList = findViewById(R.id.exerciseList);
         Bundle params  = getIntent().getExtras();
-        Lesson lesson = (Lesson) Objects.requireNonNull(params).getSerializable(LessonsTable.LESSON_KEY);
-        return lesson;
+        return (Lesson) Objects.requireNonNull(params).getSerializable(LessonsTable.LESSON_KEY);
     }
 
     private void createExercisePanels() {

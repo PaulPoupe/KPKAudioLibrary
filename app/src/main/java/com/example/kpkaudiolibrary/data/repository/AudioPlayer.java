@@ -31,9 +31,7 @@ public class AudioPlayer {
         mediaPlayer.prepare();
         mediaPlayer.start();
 
-        mediaPlayer.setOnCompletionListener(mp -> {
-            mp.release();
-        });
+        mediaPlayer.setOnCompletionListener(MediaPlayer::release);
     }
 
     private AssetFileDescriptor getAssetFileDescriptor(String path) throws IOException {

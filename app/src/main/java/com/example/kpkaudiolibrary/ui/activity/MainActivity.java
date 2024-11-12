@@ -43,11 +43,6 @@ public class MainActivity extends AppCompatActivity {
          LinearLayout root = findViewById(R.id.layout_main);
 
          createBooksPanels(root);
-//        bookCard1.setOnClickListener(v -> {
-//            Intent intent = new Intent(this, lessonsTable.class);
-//            intent.putExtra(BOOK_KEY,  bookLibrary);
-//           startActivity(intent);
-//       });
     }
 
     private void createBooksPanels(ViewGroup root) {
@@ -63,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             TextView bookName = bookView.findViewById(R.id.book_name);
             ImageView bookImage = bookView.findViewById(R.id.book_image);
 
-            bookName.setText(book.getBookType().name() + " " +book.getLanguageLevel().name());
+            bookName.setText(getString(R.string.book_name, book.getLanguageLevel().name()));
             bookImage.setImageResource(book.getIconId());
 
             bookView.setOnClickListener(v -> {
