@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class ExercisesTable extends AppCompatActivity {
     private Lesson lesson;
     private TextView lessonName;
     private LinearLayout exercisesList;
+    private ImageButton playButton;
     AudioPlayer audioPlayer;
 
 
@@ -42,13 +44,25 @@ public class ExercisesTable extends AppCompatActivity {
         lesson = takeLesson();
         exercisesList = findViewById(R.id.exerciseList);
         audioPlayer = new AudioPlayer(this);
+        playButton = findViewById(R.id.play_button);
 
         initializeHeaderOfActivity();
         createExercisePanels();
+        initializeBottomPanelOfActivity();
     }
 
     private void initializeHeaderOfActivity(){
         lessonName.setText(lesson.getLessonName());
+    }
+
+    private void initializeBottomPanelOfActivity(){
+        playButton.setOnClickListener(v -> {
+            if (audioPlayer.isPlaying()) {
+            audioPlayer.pause();
+            } else{
+                audioPlayer.continuePlaying();
+            }
+        });
     }
 
     private Lesson takeLesson() {
@@ -68,6 +82,8 @@ public class ExercisesTable extends AppCompatActivity {
             exerciseNumber.setText(String.valueOf(exercise.getExerciseNumber()));
             createExercisePartsPanels(exercise, exercisePartsRoot);
             exercisesList.addView(exerciseView);
+
+
         }
     }
 
@@ -95,4 +111,6 @@ public class ExercisesTable extends AppCompatActivity {
             partsRoot.addView(partView);
         }
     }
+
+
 }

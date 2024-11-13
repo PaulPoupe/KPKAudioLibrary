@@ -34,6 +34,18 @@ public class AudioPlayer {
         mediaPlayer.setOnCompletionListener(MediaPlayer::release);
     }
 
+    public void pause(){
+        mediaPlayer.pause();
+    }
+
+    public void continuePlaying(){
+        mediaPlayer.start();
+    }
+
+    public boolean isPlaying (){
+        return mediaPlayer.isPlaying();
+    }
+
     private AssetFileDescriptor getAssetFileDescriptor(String path) throws IOException {
         return context.getAssets().openFd(path);
     }

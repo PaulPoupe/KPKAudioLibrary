@@ -10,4 +10,5 @@
     <string name="exercise_number_placeholder" translatable="false">99</string>
     <string name="exercise_part_index_placeholder" translatable="false">B</string>
     <string name="start_button">Start</string>
+    <string name="play_button">Play</string>
 </resources>
