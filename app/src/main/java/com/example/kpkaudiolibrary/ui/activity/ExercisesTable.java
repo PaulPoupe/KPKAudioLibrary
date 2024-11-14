@@ -59,8 +59,10 @@ public class ExercisesTable extends AppCompatActivity {
         playButton.setOnClickListener(v -> {
             if (audioPlayer.isPlaying()) {
             audioPlayer.pause();
+                playButton.setImageResource(R.drawable.ic_play);
             } else{
                 audioPlayer.continuePlaying();
+                playButton.setImageResource(R.drawable.ic_pause);
             }
         });
     }
@@ -82,8 +84,6 @@ public class ExercisesTable extends AppCompatActivity {
             exerciseNumber.setText(String.valueOf(exercise.getExerciseNumber()));
             createExercisePartsPanels(exercise, exercisePartsRoot);
             exercisesList.addView(exerciseView);
-
-
         }
     }
 
@@ -104,6 +104,7 @@ public class ExercisesTable extends AppCompatActivity {
             partView.setOnClickListener(v -> {
                 try {
                     audioPlayer.play(part);
+                    playButton.setImageResource(R.drawable.ic_pause);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -111,6 +112,4 @@ public class ExercisesTable extends AppCompatActivity {
             partsRoot.addView(partView);
         }
     }
-
-
 }
