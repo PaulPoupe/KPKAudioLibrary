@@ -2,8 +2,6 @@ package com.example.kpkaudiolibrary.data.repository;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
-import android.media.AudioAttributes;
-import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 
@@ -15,19 +13,32 @@ public class AudioPlayer {
     private static final MediaPlayer mediaPlayer = new MediaPlayer();
     private final Context context;
     private final AudioManager audioManager;
-    private final AudioManager.OnAudioFocusChangeListener audioFocusChangeListener;
+    private  final AudioManager.OnAudioFocusChangeListener audioFocusChangeListener;
 
-    public AudioPlayer(Context context) {
+    private static Animations animations;
+
+    public AudioPlayer(Context context, Animations animations) {
         this.context = context;
         this.audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-
+        AudioPlayer.animations = animations;
         audioFocusChangeListener = focusChange -> {
             if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
+                    animations.startAnimation();
                 }
             }
         };
+
+        updateAnimations();
+    }
+
+    private void updateAnimations(){
+        if (mediaPlayer.isPlaying()) {
+            animations.pauseAnimation();
+        } else {
+            animations.startAnimation();
+        }
     }
 
     public void play(Part part) throws Exception {
@@ -48,16 +59,19 @@ public class AudioPlayer {
             mediaPlayer.setOnCompletionListener(mp -> {
                 mp.reset();
                 abandonAudioFocus();
+                animations.startAnimation();
             });
         }
     }
 
     public void pause(){
         mediaPlayer.pause();
+        animations.startAnimation();
     }
 
     public void continuePlaying(){
         mediaPlayer.start();
+        animations.pauseAnimation();
     }
 
     public boolean isPlaying (){
@@ -80,5 +94,12 @@ public class AudioPlayer {
 
     private AssetFileDescriptor getAssetFileDescriptor(String path) throws IOException {
         return context.getAssets().openFd(path);
+    }
+
+
+    public interface Animations {
+        void startAnimation();
+        void pauseAnimation();
+
     }
 }

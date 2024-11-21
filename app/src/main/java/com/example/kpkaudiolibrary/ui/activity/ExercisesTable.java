@@ -43,8 +43,18 @@ public class ExercisesTable extends AppCompatActivity {
         lessonName = findViewById(R.id.lesson_name);
         lesson = takeLesson();
         exercisesList = findViewById(R.id.exerciseList);
-        audioPlayer = new AudioPlayer(this);
         playButton = findViewById(R.id.play_button);
+        audioPlayer = new AudioPlayer(this, new AudioPlayer.Animations() {
+            @Override
+            public void startAnimation() {
+                playButton.setImageResource(R.drawable.ic_play);
+            }
+
+            @Override
+            public void pauseAnimation() {
+                playButton.setImageResource(R.drawable.ic_pause);
+            }
+        });
 
         initializeHeaderOfActivity();
         createExercisePanels();
@@ -58,11 +68,9 @@ public class ExercisesTable extends AppCompatActivity {
     private void initializeBottomPanelOfActivity(){
         playButton.setOnClickListener(v -> {
             if (audioPlayer.isPlaying()) {
-            audioPlayer.pause();
-                playButton.setImageResource(R.drawable.ic_play);
+                audioPlayer.pause();
             } else{
                 audioPlayer.continuePlaying();
-                playButton.setImageResource(R.drawable.ic_pause);
             }
         });
     }
