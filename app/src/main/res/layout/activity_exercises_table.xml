@@ -49,6 +49,17 @@
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
+    <SeekBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:max="100"
+        android:progress="0"
+        android:thumbTint="@color/colorPrimaryDark"
+        android:background="@color/colorBackground"
+        android:progressTint="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@id/bottom_panel"/>
+
     <LinearLayout
         android:id="@+id/bottom_panel"
         android:layout_width="match_parent"
@@ -59,16 +70,39 @@
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-    <ImageButton
-        android:id="@+id/play_button"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/play_button_background"
-        android:contentDescription="@string/play_button"
-        android:padding="12dp"
-        android:src="@drawable/ic_play"
-        app:tint="@color/colorWhite"/>
 
+        <ImageButton
+            android:id="@+id/replay_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/play_button_background"
+            android:contentDescription="@string/replay_button"
+            android:padding="12dp"
+            android:src="@drawable/ic_replay"
+            app:tint="@color/colorWhite"/>
+
+
+        <ImageButton
+            android:id="@+id/play_button"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:background="@drawable/play_button_background"
+            android:contentDescription="@string/play_button"
+            android:padding="12dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_play"
+            app:tint="@color/colorWhite"/>
+
+        <ImageButton
+            android:id="@+id/forward_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/play_button_background"
+            android:contentDescription="@string/forward_button"
+            android:padding="12dp"
+            android:src="@drawable/ic_forward"
+            app:tint="@color/colorWhite"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

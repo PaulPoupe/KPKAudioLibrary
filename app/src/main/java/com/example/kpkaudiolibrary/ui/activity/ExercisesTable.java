@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -26,6 +27,9 @@ public class ExercisesTable extends AppCompatActivity {
     private TextView lessonName;
     private LinearLayout exercisesList;
     private ImageButton playButton;
+    private ImageButton replayButton;
+    private ImageButton forwardButton;
+    private SeekBar progressBar;
     AudioPlayer audioPlayer;
 
 
@@ -44,6 +48,10 @@ public class ExercisesTable extends AppCompatActivity {
         lesson = takeLesson();
         exercisesList = findViewById(R.id.exerciseList);
         playButton = findViewById(R.id.play_button);
+        forwardButton = findViewById(R.id.forward_button);
+        replayButton = findViewById(R.id.replay_button);
+        progressBar = findViewById(R.id.progress_bar);
+
         audioPlayer = new AudioPlayer(this, new AudioPlayer.Animations() {
             @Override
             public void startAnimation() {
@@ -54,11 +62,18 @@ public class ExercisesTable extends AppCompatActivity {
             public void pauseAnimation() {
                 playButton.setImageResource(R.drawable.ic_pause);
             }
+
+            @Override
+            public void progressBarAnimation(float currentPosition) {
+                progressBar.setProgress((int) currentPosition);
+            }
         });
 
         initializeHeaderOfActivity();
         createExercisePanels();
         initializeBottomPanelOfActivity();
+
+
     }
 
     private void initializeHeaderOfActivity(){
@@ -73,6 +88,25 @@ public class ExercisesTable extends AppCompatActivity {
                 audioPlayer.continuePlaying();
             }
         });
+        progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            audioPlayer.seekTo(seekBar.getProgress());
+            }
+        });
+        forwardButton.setOnClickListener(v -> audioPlayer.forward());
+        replayButton.setOnClickListener(v -> audioPlayer.replay());
     }
 
     private Lesson takeLesson() {
@@ -94,6 +128,7 @@ public class ExercisesTable extends AppCompatActivity {
             exercisesList.addView(exerciseView);
         }
     }
+
 
     private void createExercisePartsPanels(Exercise exercise, ViewGroup partsRoot){
         LayoutInflater inflater = LayoutInflater.from(this);

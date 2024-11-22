@@ -56,11 +56,23 @@ public class AudioPlayer {
             mediaPlayer.prepare();
             mediaPlayer.start();
 
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    while (mediaPlayer.isPlaying()) {
+                        animations.progressBarAnimation(((float) mediaPlayer.getCurrentPosition() / mediaPlayer.getDuration()) * 100);
+                    }
+                }
+            }).start();
+            
             mediaPlayer.setOnCompletionListener(mp -> {
                 mp.reset();
                 abandonAudioFocus();
                 animations.startAnimation();
+                animations.progressBarAnimation(0);
             });
+
         }
     }
 
@@ -72,6 +84,18 @@ public class AudioPlayer {
     public void continuePlaying(){
         mediaPlayer.start();
         animations.pauseAnimation();
+    }
+
+    public void forward(){
+        mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 5000);
+    }
+
+    public void replay(){
+        mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 5000);
+    }
+
+    public void seekTo(int requiredValue){
+        mediaPlayer.seekTo(mediaPlayer.getDuration() * requiredValue / 100);
     }
 
     public boolean isPlaying (){
@@ -100,6 +124,6 @@ public class AudioPlayer {
     public interface Animations {
         void startAnimation();
         void pauseAnimation();
-
+        void progressBarAnimation(float currentPosition);
     }
 }
