@@ -47,7 +47,15 @@ public class LessonsTable extends AppCompatActivity {
 
     private void initializeHeaderOfActivity() {
         bookName.setText(getString(R.string.book_name, book.getLanguageLevel().name()));
-        bookDescription.setText(book.getBookType().name());
+        switch (book.getBookType()) {
+            case Book:
+                bookDescription.setText(R.string.book_type);
+                break;
+
+            case Workbook:
+                bookDescription.setText(R.string.workbook_type);
+                break;
+        }
     }
 
     private Book takeBook() {

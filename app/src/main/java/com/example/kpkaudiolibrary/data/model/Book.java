@@ -79,5 +79,4 @@ public class Book implements Iterable<Lesson>, Serializable {
             throw new NumberFormatException("Invalid string format");
         }
     }
-
 }

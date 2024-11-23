@@ -5,4 +5,6 @@
     <string name="search_book">Szukaj</string>
     <string name="start_button">Start</string>
     <string name="play_button">Grać</string>
+    <string name="book_type">Podręcznik</string>
+    <string name="workbook_type">Zeszyt cwiczeń</string>
 </resources>

@@ -1,10 +1,12 @@
 package com.example.kpkaudiolibrary.ui.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ import com.example.kpkaudiolibrary.R;
 import com.example.kpkaudiolibrary.data.model.BookLibrary;
 import com.example.kpkaudiolibrary.data.model.LanguageLevel;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.TreeMap;
 
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     public final static String BOOK_KEY = "book";
     private BookLibrary bookLibrary;
     private final TreeMap<LanguageLevel, LinearLayout> booksLayouts = new TreeMap<>();
+    private FrameLayout languageButton;
+    private ImageView languageIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
          bookLibrary =  new BookLibrary(this);
+         languageButton = findViewById(R.id.language_button);
+         languageIcon = findViewById(R.id.language_icon);
+
+         languageButton.setOnClickListener(v -> {
+             String currentLanguage = Locale.getDefault().getLanguage();
+             if (currentLanguage.equals("en")) {
+                 changeLanguage("pl");
+             } else {
+                 changeLanguage("en");
+             }
+         });
+
          LinearLayout root = findViewById(R.id.layout_main);
 
          createBooksPanels(root);
@@ -79,4 +96,16 @@ public class MainActivity extends AppCompatActivity {
         root.addView(booksLayout, layoutParams);
         return booksLayout;
     }
+
+    private void changeLanguage(String languageCode) {
+        Locale newLocale = new Locale(languageCode);
+        Locale.setDefault(newLocale);
+        Configuration config = new Configuration(getResources().getConfiguration());
+        config.setLocale(newLocale);
+
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
+        recreate();
+    }
+
 }

@@ -2,6 +2,8 @@
     <string name="app_name">KPKAudioLibrary</string>
     <string name="book_name" translatable="false">Krok po kroku %1$s</string>
     <string name="book_description" translatable="false">Book description</string>
+    <string name="book_type">Book</string>"
+    <string name="workbook_type">Workbook</string>"
     <string name="lesson_number_placeholder" translatable="false">99</string>
     <string name="lesson_name">Lesson </string>
     <string name="lesson_description_placeholder" translatable="false">Lesson description</string>
