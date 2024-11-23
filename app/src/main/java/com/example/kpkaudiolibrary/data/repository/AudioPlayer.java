@@ -65,7 +65,7 @@ public class AudioPlayer {
                     }
                 }
             }).start();
-            
+
             mediaPlayer.setOnCompletionListener(mp -> {
                 mp.reset();
                 abandonAudioFocus();
