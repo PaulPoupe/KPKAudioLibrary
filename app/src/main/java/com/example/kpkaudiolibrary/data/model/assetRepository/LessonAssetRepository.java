@@ -53,7 +53,7 @@ public class LessonAssetRepository {
         return Objects.requireNonNull(lessons.get(languageLevel)).get(lessonNumber -1);
     }
 
-    public class LessonAsset{
+    public static class LessonAsset{
         private final String name;
 
         public LessonAsset(String name){

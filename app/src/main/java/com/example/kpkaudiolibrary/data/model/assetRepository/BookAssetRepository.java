@@ -23,7 +23,7 @@ public class BookAssetRepository {
         return null;
     }
 
-    public class BookAsset {
+    public static class BookAsset {
         private final LanguageLevel languageLevel;
         private final BookTypes bookType;
         private final int iconId;
@@ -38,12 +38,12 @@ public class BookAssetRepository {
             return iconId;
         }
 
-        public BookTypes getBookType() {
-            return bookType;
-        }
-
-        public LanguageLevel getLanguageLevel() {
-            return languageLevel;
-        }
+//        public BookTypes getBookType() {
+//            return bookType;
+//        }
+//
+//        public LanguageLevel getLanguageLevel() {
+//            return languageLevel;
+//        }
     }
 }

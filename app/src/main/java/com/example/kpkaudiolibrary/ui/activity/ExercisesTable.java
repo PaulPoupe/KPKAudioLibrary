@@ -30,7 +30,7 @@ public class ExercisesTable extends AppCompatActivity {
     private ImageButton replayButton;
     private ImageButton forwardButton;
     private SeekBar progressBar;
-    AudioPlayer audioPlayer;
+    private AudioPlayer audioPlayer;
 
 
     @Override
@@ -51,7 +51,6 @@ public class ExercisesTable extends AppCompatActivity {
         forwardButton = findViewById(R.id.forward_button);
         replayButton = findViewById(R.id.replay_button);
         progressBar = findViewById(R.id.progress_bar);
-
         audioPlayer = new AudioPlayer(this, new AudioPlayer.Animations() {
             @Override
             public void startAnimation() {
@@ -67,13 +66,16 @@ public class ExercisesTable extends AppCompatActivity {
             public void progressBarAnimation(float currentPosition) {
                 progressBar.setProgress((int) currentPosition);
             }
+
+            @Override
+            public void progressBarLok(boolean isLocked) {
+                progressBar.setEnabled(!isLocked);
+            }
         });
 
         initializeHeaderOfActivity();
         createExercisePanels();
         initializeBottomPanelOfActivity();
-
-
     }
 
     private void initializeHeaderOfActivity(){
@@ -84,10 +86,11 @@ public class ExercisesTable extends AppCompatActivity {
         playButton.setOnClickListener(v -> {
             if (audioPlayer.isPlaying()) {
                 audioPlayer.pause();
-            } else{
+            } else if(!audioPlayer.isPlaying() && audioPlayer.isAudioLoaded()){
                 audioPlayer.continuePlaying();
             }
         });
+        progressBar.setEnabled(audioPlayer.isAudioLoaded());
         progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
             @Override
@@ -129,7 +132,6 @@ public class ExercisesTable extends AppCompatActivity {
         }
     }
 
-
     private void createExercisePartsPanels(Exercise exercise, ViewGroup partsRoot){
         LayoutInflater inflater = LayoutInflater.from(this);
 
@@ -147,7 +149,6 @@ public class ExercisesTable extends AppCompatActivity {
             partView.setOnClickListener(v -> {
                 try {
                     audioPlayer.play(part);
-                    playButton.setImageResource(R.drawable.ic_pause);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

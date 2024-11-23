@@ -14,8 +14,8 @@ public class AudioPlayer {
     private final Context context;
     private final AudioManager audioManager;
     private  final AudioManager.OnAudioFocusChangeListener audioFocusChangeListener;
-
     private static Animations animations;
+    private static boolean isAudioLoaded;
 
     public AudioPlayer(Context context, Animations animations) {
         this.context = context;
@@ -29,14 +29,16 @@ public class AudioPlayer {
                 }
             }
         };
-
         updateAnimations();
     }
 
     private void updateAnimations(){
+        if (isAudioLoaded){
+            animations.progressBarLok(false);
+        }
         if (mediaPlayer.isPlaying()) {
             animations.pauseAnimation();
-        } else {
+        } else if (!mediaPlayer.isPlaying() && isAudioLoaded) {
             animations.startAnimation();
         }
     }
@@ -47,6 +49,7 @@ public class AudioPlayer {
                 mediaPlayer.stop();
             }
             mediaPlayer.reset();
+            isAudioLoaded = false;
 
             AssetFileDescriptor audioAfd = getAssetFileDescriptor(part.getAudioFilePath());
 
@@ -56,25 +59,37 @@ public class AudioPlayer {
             mediaPlayer.prepare();
             mediaPlayer.start();
 
-            new Thread(new Runnable() {
-
-                @Override
-                public void run() {
-                    while (mediaPlayer.isPlaying()) {
-                        animations.progressBarAnimation(((float) mediaPlayer.getCurrentPosition() / mediaPlayer.getDuration()) * 100);
-                    }
-                }
-            }).start();
+            animations.pauseAnimation();
+            isAudioLoaded = true;
+            startProgressBarAnimation();
 
             mediaPlayer.setOnCompletionListener(mp -> {
                 mp.reset();
+                isAudioLoaded = false;
                 abandonAudioFocus();
                 animations.startAnimation();
-                animations.progressBarAnimation(0);
+                animations.progressBarLok(true);
             });
-
         }
     }
+
+    private void startProgressBarAnimation() {
+        animations.progressBarLok(false);
+
+        new Thread(() -> {
+            while (isAudioLoaded) {
+                float progress = ((float) mediaPlayer.getCurrentPosition() / mediaPlayer.getDuration()) * 100;
+                animations.progressBarAnimation(progress);
+                try {
+                    Thread.sleep(500); // Обновление каждые 500 мс
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+            animations.progressBarAnimation(0);
+        }).start();
+    }
+
 
     public void pause(){
         mediaPlayer.pause();
@@ -102,6 +117,10 @@ public class AudioPlayer {
         return mediaPlayer.isPlaying();
     }
 
+    public boolean isAudioLoaded() {
+        return isAudioLoaded;
+    }
+
     private boolean requestAudioFocus() {
         int result = audioManager.requestAudioFocus(
                 audioFocusChangeListener,
@@ -120,10 +139,10 @@ public class AudioPlayer {
         return context.getAssets().openFd(path);
     }
 
-
     public interface Animations {
         void startAnimation();
         void pauseAnimation();
         void progressBarAnimation(float currentPosition);
+        void progressBarLok(boolean isLocked);
     }
 }
