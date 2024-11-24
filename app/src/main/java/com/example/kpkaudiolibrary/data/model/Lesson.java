@@ -46,11 +46,16 @@ public class Lesson implements Iterable<Exercise>, Serializable {
     }
 
     public void putExercise(String rawExercise) throws NullPointerException {
+        int exerciseNumber;
         if (rawExercise == null) {
             throw new NullPointerException("Raw exercise is null");
         }
 
-        int exerciseNumber = getExerciseNumber(rawExercise);
+        if (book.getBookType() == BookTypes.Book) {
+            exerciseNumber = getExerciseNumberBook(rawExercise);
+        }else {
+            exerciseNumber = getExerciseNumber(rawExercise);
+        }
 
         if (!exercises.containsKey(exerciseNumber)) {
             exercises.put(exerciseNumber, new Exercise(rawExercise, exerciseNumber, book));
@@ -61,6 +66,18 @@ public class Lesson implements Iterable<Exercise>, Serializable {
 
     private int getExerciseNumber(String rawExercise) {
         Pattern pattern = Pattern.compile("cwiczenie(\\d+)");
+        Matcher matcher = pattern.matcher(rawExercise);
+
+        if (matcher.find()) {
+            String numberString = matcher.group(1);
+            return Integer.parseInt(numberString);
+        } else {
+            throw new NumberFormatException("Invalid string format");
+        }
+    }
+
+    private int getExerciseNumberBook(String rawExercise) {
+        Pattern pattern = Pattern.compile("^(\\d+)");
         Matcher matcher = pattern.matcher(rawExercise);
 
         if (matcher.find()) {

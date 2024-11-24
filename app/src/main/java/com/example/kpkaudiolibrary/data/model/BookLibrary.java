@@ -30,7 +30,7 @@ public class BookLibrary implements Iterable<Book> {
             for (var folderName : Objects.requireNonNull(context.getAssets().list(WORKBOOKS_FOLDER))) {
                 books.add(new Book(context, folderName, BookTypes.Workbook, WORKBOOKS_FOLDER + '/' + folderName));
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

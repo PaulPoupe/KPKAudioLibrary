@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import androidx.annotation.NonNull;
 
 import com.example.kpkaudiolibrary.data.model.assetRepository.BookAssetRepository;
+import com.example.kpkaudiolibrary.data.model.assetRepository.NameExtractor;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -22,7 +23,7 @@ public class Book implements Iterable<Lesson>, Serializable {
     private final BookTypes bookType;
     private final int iconId;
 
-    public Book(Context context, String folderName, BookTypes bookType, String directoryPath) throws IOException {
+    public Book(Context context, String folderName, BookTypes bookType, String directoryPath) throws Exception {
         BookAssetRepository assetRepository = new BookAssetRepository();
 
         AssetManager assetManager = context.getAssets();
@@ -32,7 +33,7 @@ public class Book implements Iterable<Lesson>, Serializable {
         languageLevel = LanguageLevel.valueOf(folderName);
         iconId = assetRepository.getBookAsset(languageLevel, bookType).getIconId();
 
-        putLessons(rawExercises);
+        putLessons(rawExercises, directoryPath, context);
     }
 
     @NonNull
@@ -57,9 +58,24 @@ public class Book implements Iterable<Lesson>, Serializable {
         return lessons.get(lessonNumber);
     }
 
-    private void putLessons(String[] rawExercises) {
-        for (var rawExercise : Objects.requireNonNull(rawExercises, "Exercises is null")) {
-            int lessonNumber = separateLessonNumber(rawExercise);
+    private void putLessons(String[] rawExercises, String directoryPath, Context context) throws Exception {
+        String[] updatedExercises;
+        if (bookType == BookTypes.Book){
+            for(int i = 0; i < rawExercises.length; i++){
+                rawExercises[i] = NameExtractor.extractName( context,directoryPath + '/' + rawExercises[i]);
+            }
+            updatedExercises = NameExtractor.updateExerciseNumbers(rawExercises);
+        } else {
+            updatedExercises = rawExercises;
+        }
+
+        for (var rawExercise : Objects.requireNonNull(updatedExercises, "Exercises is null")) {
+            int lessonNumber;
+            if(bookType == BookTypes.Book){
+                lessonNumber = separateLessonNumberBook(rawExercise);
+            }else {
+                lessonNumber = separateLessonNumber(rawExercise);
+            }
 
             if (!lessons.containsKey(lessonNumber)) {
                 lessons.put(lessonNumber, new Lesson(lessonNumber, rawExercise, this));
@@ -79,4 +95,17 @@ public class Book implements Iterable<Lesson>, Serializable {
             throw new NumberFormatException("Invalid string format");
         }
     }
+
+    private int separateLessonNumberBook(String rawExercise) {
+        Pattern pattern = Pattern.compile("Lekcja\\s(\\d+)");
+        Matcher matcher = pattern.matcher(rawExercise);
+
+        if (matcher.find()) {
+            String numberString = matcher.group(1);
+            return Integer.parseInt(numberString);
+        } else {
+            throw new NumberFormatException("Invalid string format: Lekcja number not found");
+        }
+    }
+
 }

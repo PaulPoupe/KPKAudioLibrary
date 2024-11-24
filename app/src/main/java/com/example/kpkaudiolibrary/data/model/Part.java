@@ -1,6 +1,8 @@
 package com.example.kpkaudiolibrary.data.model;
 
 
+import com.example.kpkaudiolibrary.data.model.assetRepository.NameExtractor;
+
 import java.io.Serializable;
 
 public class Part implements Serializable {
@@ -29,9 +31,15 @@ public class Part implements Serializable {
             case A2:
                 languageLevel = "A2/";
         }
-
-
-        this.audioFilePath = bookType + languageLevel + fileName;
+        if (book.getBookType() == BookTypes.Book) {
+            try {
+                this.audioFilePath = bookType + languageLevel + NameExtractor.findFileNameByPart(getPartKey(fileName),bookType + languageLevel);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }else {
+            this.audioFilePath = bookType + languageLevel + fileName;
+        }
     }
 
     public String getAudioFilePath() {
@@ -40,5 +48,8 @@ public class Part implements Serializable {
 
     public String getName() {
         return name;
+    }
+    private String getPartKey(String rawExercise) {
+        return rawExercise.substring(3);
     }
 }

@@ -32,7 +32,12 @@ public class Exercise implements Iterable<Part>, Serializable {
     }
 
     public void addPart(String rawExercisePart) {
-        String partKey = getPartKey(rawExercisePart);
+        String partKey;
+        if (book.getBookType() == BookTypes.Book) {
+            partKey = getPartKeyBook(rawExercisePart);
+        }else {
+            partKey = getPartKey(rawExercisePart);
+        }
 
         if (!parts.containsKey(partKey)) {
             parts.put(partKey, new Part(partKey, rawExercisePart, book));
@@ -48,4 +53,15 @@ public class Exercise implements Iterable<Part>, Serializable {
             return "1";
         }
     }
+
+    private String getPartKeyBook(String rawExercise) {
+        String pattern = ".*(\\d|[a-z])$";
+
+        if (rawExercise.matches(pattern)) {
+            return rawExercise.replaceAll(pattern, "$1");
+        } else {
+            return "1";
+        }
+    }
+
 }
