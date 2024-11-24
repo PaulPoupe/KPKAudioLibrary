@@ -26,6 +26,7 @@ public class ExercisesTableActivity extends BaseActivity {
     private Lesson lesson;
     private TextView lessonName;
     private LinearLayout exercisesList;
+    private LinearLayout bottomPanel;
     private ImageButton playButton;
     private ImageButton replayButton;
     private ImageButton forwardButton;
@@ -47,6 +48,7 @@ public class ExercisesTableActivity extends BaseActivity {
         lessonName = findViewById(R.id.lesson_name);
         lesson = takeLesson();
         exercisesList = findViewById(R.id.exerciseList);
+        bottomPanel = findViewById(R.id.bottom_panel);
         playButton = findViewById(R.id.play_button);
         forwardButton = findViewById(R.id.forward_button);
         replayButton = findViewById(R.id.replay_button);
@@ -70,12 +72,20 @@ public class ExercisesTableActivity extends BaseActivity {
             @Override
             public void progressBarLok(boolean isLocked) {
                 progressBar.setEnabled(!isLocked);
+                progressBar.setVisibility(isLocked ? View.GONE : View.VISIBLE);
+                bottomPanel.setVisibility(isLocked ? View.GONE : View.VISIBLE);
             }
         });
 
         initializeHeaderOfActivity();
         createExercisePanels();
         initializeBottomPanelOfActivity();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        audioPlayer.pause();
     }
 
     private void initializeHeaderOfActivity() {
@@ -110,6 +120,8 @@ public class ExercisesTableActivity extends BaseActivity {
         });
         forwardButton.setOnClickListener(v -> audioPlayer.forward());
         replayButton.setOnClickListener(v -> audioPlayer.replay());
+        bottomPanel.setVisibility(audioPlayer.isAudioLoaded() ? View.VISIBLE : View.GONE);
+        progressBar.setVisibility(audioPlayer.isAudioLoaded() ? View.VISIBLE : View.GONE);
     }
 
     private Lesson takeLesson() {

@@ -13,7 +13,7 @@ public class AudioPlayer {
     private static final MediaPlayer mediaPlayer = new MediaPlayer();
     private final Context context;
     private final AudioManager audioManager;
-    private final AudioManager.OnAudioFocusChangeListener audioFocusChangeListener;
+    private  final AudioManager.OnAudioFocusChangeListener audioFocusChangeListener;
     private static Animations animations;
     private static boolean isAudioLoaded;
 
@@ -32,8 +32,8 @@ public class AudioPlayer {
         updateAnimations();
     }
 
-    private void updateAnimations() {
-        if (isAudioLoaded) {
+    private void updateAnimations(){
+        if (isAudioLoaded){
             animations.progressBarLok(false);
         }
         if (mediaPlayer.isPlaying()) {
@@ -78,10 +78,10 @@ public class AudioPlayer {
 
         new Thread(() -> {
             while (isAudioLoaded) {
-                float progress = ((float) mediaPlayer.getCurrentPosition() / mediaPlayer.getDuration()) * 100;
+                float progress = ((float) mediaPlayer.getCurrentPosition() / mediaPlayer.getDuration()) * 10000;
                 animations.progressBarAnimation(progress);
                 try {
-                    Thread.sleep(500); // Обновление каждые 500 мс
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
@@ -91,29 +91,29 @@ public class AudioPlayer {
     }
 
 
-    public void pause() {
+    public void pause(){
         mediaPlayer.pause();
         animations.startAnimation();
     }
 
-    public void continuePlaying() {
+    public void continuePlaying(){
         mediaPlayer.start();
         animations.pauseAnimation();
     }
 
-    public void forward() {
+    public void forward(){
         mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 5000);
     }
 
-    public void replay() {
+    public void replay(){
         mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 5000);
     }
 
-    public void seekTo(int requiredValue) {
-        mediaPlayer.seekTo(mediaPlayer.getDuration() * requiredValue / 100);
+    public void seekTo(int requiredValue){
+        mediaPlayer.seekTo(mediaPlayer.getDuration() * requiredValue / 10000);
     }
 
-    public boolean isPlaying() {
+    public boolean isPlaying (){
         return mediaPlayer.isPlaying();
     }
 
@@ -141,11 +141,8 @@ public class AudioPlayer {
 
     public interface Animations {
         void startAnimation();
-
         void pauseAnimation();
-
         void progressBarAnimation(float currentPosition);
-
         void progressBarLok(boolean isLocked);
     }
 }
