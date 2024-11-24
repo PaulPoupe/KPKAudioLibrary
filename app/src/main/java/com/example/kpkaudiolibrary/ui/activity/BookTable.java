@@ -1,7 +1,6 @@
 package com.example.kpkaudiolibrary.ui.activity;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +20,11 @@ import com.example.kpkaudiolibrary.R;
 import com.example.kpkaudiolibrary.data.model.BookLibrary;
 import com.example.kpkaudiolibrary.data.model.LanguageLevel;
 
-import java.util.Locale;
 import java.util.Objects;
 import java.util.TreeMap;
 
 
-public class MainActivity extends AppCompatActivity {
+public class BookTable extends AppCompatActivity {
     public final static String BOOK_KEY = "book";
     private BookLibrary bookLibrary;
     private final TreeMap<LanguageLevel, LinearLayout> booksLayouts = new TreeMap<>();
@@ -44,31 +42,24 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-         bookLibrary =  new BookLibrary(this);
-         languageButton = findViewById(R.id.language_button);
-         languageIcon = findViewById(R.id.language_icon);
+        bookLibrary = new BookLibrary(this);
+        languageButton = findViewById(R.id.language_button);
+        languageIcon = findViewById(R.id.language_icon);
+        LinearLayout root = findViewById(R.id.layout_main);
 
-         languageButton.setOnClickListener(v -> {
-             String currentLanguage = Locale.getDefault().getLanguage();
-             if (currentLanguage.equals("en")) {
-                 changeLanguage("pl");
-             } else {
-                 changeLanguage("en");
-             }
-         });
+        languageButton.setOnClickListener(v -> {
 
-         LinearLayout root = findViewById(R.id.layout_main);
-
-         createBooksPanels(root);
+        });
+        createBooksPanels(root);
     }
 
     private void createBooksPanels(ViewGroup root) {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        for(var book : bookLibrary){
+        for (var book : bookLibrary) {
             View bookView;
 
-            if(!booksLayouts.containsKey(book.getLanguageLevel())) {
+            if (!booksLayouts.containsKey(book.getLanguageLevel())) {
                 booksLayouts.put(book.getLanguageLevel(), createBooksLayout(root));
             }
             bookView = inflater.inflate(R.layout.book_item, booksLayouts.get(book.getLanguageLevel()), false);
@@ -88,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private LinearLayout createBooksLayout(ViewGroup root){
+    private LinearLayout createBooksLayout(ViewGroup root) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         LinearLayout booksLayout = new LinearLayout(this);
         booksLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -98,14 +89,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void changeLanguage(String languageCode) {
-        Locale newLocale = new Locale(languageCode);
-        Locale.setDefault(newLocale);
-        Configuration config = new Configuration(getResources().getConfiguration());
-        config.setLocale(newLocale);
 
-        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-
-        recreate();
     }
-
 }

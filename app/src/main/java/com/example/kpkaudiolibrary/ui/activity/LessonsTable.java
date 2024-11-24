@@ -61,7 +61,7 @@ public class LessonsTable extends AppCompatActivity {
     private Book takeBook() {
         Bundle arguments = getIntent().getExtras();
         assert arguments != null;
-        book = (Book) arguments.getSerializable(MainActivity.BOOK_KEY);
+        book = (Book) arguments.getSerializable(BookTable.BOOK_KEY);
         return book;
     }
 

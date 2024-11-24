@@ -8,6 +8,6 @@
     <color name="colorPrimaryLight">#E9F8F1</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorEndBackground">#50FFFFFF</color>
-    <color name="colorLessonItemStart">#FEBD1B</color>
-    <color name="colorLessonItemEnd">#E4A401</color>
+    <color name="colorLessonItemBackgroundStart">#FEBD1B</color>
+    <color name="colorLessonItemBackgroundEnd">#E4A401</color>
 </resources>

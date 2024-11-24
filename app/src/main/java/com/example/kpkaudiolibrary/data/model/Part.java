@@ -12,7 +12,7 @@ public class Part implements Serializable {
 
 
         String bookType = null;
-        switch (book.getBookType()){
+        switch (book.getBookType()) {
             case Book:
                 bookType = "books/";
                 break;
@@ -22,7 +22,7 @@ public class Part implements Serializable {
         }
 
         String languageLevel = null;
-        switch (book.getLanguageLevel()){
+        switch (book.getLanguageLevel()) {
             case A1:
                 languageLevel = "A1/";
                 break;
@@ -34,7 +34,7 @@ public class Part implements Serializable {
         this.audioFilePath = bookType + languageLevel + fileName;
     }
 
-    public String getAudioFilePath () {
+    public String getAudioFilePath() {
         return audioFilePath;
     }
 

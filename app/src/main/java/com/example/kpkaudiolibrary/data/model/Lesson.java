@@ -46,8 +46,8 @@ public class Lesson implements Iterable<Exercise>, Serializable {
     }
 
     public void putExercise(String rawExercise) throws NullPointerException {
-        if(rawExercise == null){
-           throw new NullPointerException("Raw exercise is null");
+        if (rawExercise == null) {
+            throw new NullPointerException("Raw exercise is null");
         }
 
         int exerciseNumber = getExerciseNumber(rawExercise);

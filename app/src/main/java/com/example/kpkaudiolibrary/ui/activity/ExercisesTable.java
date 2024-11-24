@@ -78,20 +78,20 @@ public class ExercisesTable extends AppCompatActivity {
         initializeBottomPanelOfActivity();
     }
 
-    private void initializeHeaderOfActivity(){
+    private void initializeHeaderOfActivity() {
         lessonName.setText(lesson.getLessonName());
     }
 
-    private void initializeBottomPanelOfActivity(){
+    private void initializeBottomPanelOfActivity() {
         playButton.setOnClickListener(v -> {
             if (audioPlayer.isPlaying()) {
                 audioPlayer.pause();
-            } else if(!audioPlayer.isPlaying() && audioPlayer.isAudioLoaded()){
+            } else if (!audioPlayer.isPlaying() && audioPlayer.isAudioLoaded()) {
                 audioPlayer.continuePlaying();
             }
         });
         progressBar.setEnabled(audioPlayer.isAudioLoaded());
-        progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+        progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -105,7 +105,7 @@ public class ExercisesTable extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-            audioPlayer.seekTo(seekBar.getProgress());
+                audioPlayer.seekTo(seekBar.getProgress());
             }
         });
         forwardButton.setOnClickListener(v -> audioPlayer.forward());
@@ -113,7 +113,7 @@ public class ExercisesTable extends AppCompatActivity {
     }
 
     private Lesson takeLesson() {
-        Bundle params  = getIntent().getExtras();
+        Bundle params = getIntent().getExtras();
         return (Lesson) Objects.requireNonNull(params).getSerializable(LessonsTable.LESSON_KEY);
     }
 
@@ -132,17 +132,17 @@ public class ExercisesTable extends AppCompatActivity {
         }
     }
 
-    private void createExercisePartsPanels(Exercise exercise, ViewGroup partsRoot){
+    private void createExercisePartsPanels(Exercise exercise, ViewGroup partsRoot) {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        for (var part : exercise){
+        for (var part : exercise) {
             View partView;
 
-            if (!(exercise.getPartsCount() ==1)) {
+            if (!(exercise.getPartsCount() == 1)) {
                 partView = inflater.inflate(R.layout.exercise_part_button, partsRoot, false);
                 TextView partName = partView.findViewById(R.id.exercise_part_button);
                 partName.setText(part.getName());
-            }else{
+            } else {
                 partView = inflater.inflate(R.layout.exercise_start_button, partsRoot, false);
             }
 

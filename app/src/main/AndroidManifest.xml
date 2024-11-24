@@ -19,7 +19,7 @@
             android:name=".ui.activity.LessonsTable"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.activity.BookTable"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

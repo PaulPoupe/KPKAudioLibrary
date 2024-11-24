@@ -41,15 +41,15 @@ public class Book implements Iterable<Lesson>, Serializable {
         return lessons.values().iterator();
     }
 
-    public LanguageLevel getLanguageLevel(){
+    public LanguageLevel getLanguageLevel() {
         return languageLevel;
     }
 
-    public BookTypes getBookType(){
+    public BookTypes getBookType() {
         return bookType;
     }
 
-    public int getIconId(){
+    public int getIconId() {
         return iconId;
     }
 

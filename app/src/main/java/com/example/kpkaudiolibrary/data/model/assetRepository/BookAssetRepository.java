@@ -12,7 +12,7 @@ public class BookAssetRepository {
             new BookAsset(LanguageLevel.A1, BookTypes.Workbook, R.mipmap.kpk_workbook_1),
             new BookAsset(LanguageLevel.A2, BookTypes.Book, R.mipmap.kpk_book_2),
             new BookAsset(LanguageLevel.A2, BookTypes.Workbook, R.mipmap.kpk_workbook_2)
-            );
+    );
 
     public BookAsset getBookAsset(LanguageLevel languageLevel, BookTypes bookType) {
         for (BookAsset asset : bookAssets) {

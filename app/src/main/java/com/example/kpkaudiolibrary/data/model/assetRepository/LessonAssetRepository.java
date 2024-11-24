@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class LessonAssetRepository {
-    private final Map<LanguageLevel ,List<LessonAsset>> lessons = Map.of(
+    private final Map<LanguageLevel, List<LessonAsset>> lessons = Map.of(
             LanguageLevel.A1, List.of(
                     new LessonAsset("Pierwszy dzień w szkole"),
                     new LessonAsset("Cześć, skąd jesteś?"),
@@ -49,18 +49,18 @@ public class LessonAssetRepository {
                     new LessonAsset("lesson 10"))
     );
 
-    public LessonAsset getLessonAsset(LanguageLevel languageLevel, int lessonNumber){
-        return Objects.requireNonNull(lessons.get(languageLevel)).get(lessonNumber -1);
+    public LessonAsset getLessonAsset(LanguageLevel languageLevel, int lessonNumber) {
+        return Objects.requireNonNull(lessons.get(languageLevel)).get(lessonNumber - 1);
     }
 
-    public static class LessonAsset{
+    public static class LessonAsset {
         private final String name;
 
-        public LessonAsset(String name){
+        public LessonAsset(String name) {
             this.name = name;
         }
 
-        public String getName(){
+        public String getName() {
             return name;
         }
     }

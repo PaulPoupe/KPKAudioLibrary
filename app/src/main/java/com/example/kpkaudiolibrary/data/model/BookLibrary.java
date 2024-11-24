@@ -24,11 +24,11 @@ public class BookLibrary implements Iterable<Book> {
     public BookLibrary(Context context) {
         try {
             for (var folderName : Objects.requireNonNull(context.getAssets().list(BOOKS_FOLDER))) {
-                books.add(new Book(context, folderName, BookTypes.Book,BOOKS_FOLDER + '/' + folderName ));
+                books.add(new Book(context, folderName, BookTypes.Book, BOOKS_FOLDER + '/' + folderName));
             }
 
             for (var folderName : Objects.requireNonNull(context.getAssets().list(WORKBOOKS_FOLDER))) {
-                books.add(new Book(context, folderName, BookTypes.Workbook, WORKBOOKS_FOLDER+ '/' + folderName));
+                books.add(new Book(context, folderName, BookTypes.Workbook, WORKBOOKS_FOLDER + '/' + folderName));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
