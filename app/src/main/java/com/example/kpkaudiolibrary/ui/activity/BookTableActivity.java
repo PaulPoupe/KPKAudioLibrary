@@ -20,16 +20,15 @@ import com.example.kpkaudiolibrary.R;
 import com.example.kpkaudiolibrary.data.model.BookLibrary;
 import com.example.kpkaudiolibrary.data.model.LanguageLevel;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.TreeMap;
 
 
-public class BookTable extends AppCompatActivity {
+public class BookTableActivity extends BaseActivity {
     public final static String BOOK_KEY = "book";
     private BookLibrary bookLibrary;
     private final TreeMap<LanguageLevel, LinearLayout> booksLayouts = new TreeMap<>();
-    private FrameLayout languageButton;
-    private ImageView languageIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +42,26 @@ public class BookTable extends AppCompatActivity {
         });
 
         bookLibrary = new BookLibrary(this);
-        languageButton = findViewById(R.id.language_button);
-        languageIcon = findViewById(R.id.language_icon);
         LinearLayout root = findViewById(R.id.layout_main);
 
-        languageButton.setOnClickListener(v -> {
-
-        });
+        initializeHeaderOfActivity();
         createBooksPanels(root);
     }
 
+    private void initializeHeaderOfActivity() {
+        FrameLayout languageButton = findViewById(R.id.language_button);
+        languageButton.setOnClickListener(v -> {
+            String currentLanguage = Locale.getDefault().getLanguage();
+            if (currentLanguage.equals("en")) {
+                changeLanguage("pl");
+            } else {
+                changeLanguage("en");
+            }
+        });
+
+        ImageView languageIcon = findViewById(R.id.language_icon);
+        languageIcon.setImageResource(Locale.getDefault().getLanguage().equals("en") ? R.drawable.ic_united_kingdom_flag : R.drawable.ic_poland_flag);
+    }
     private void createBooksPanels(ViewGroup root) {
         LayoutInflater inflater = LayoutInflater.from(this);
 
@@ -70,7 +79,7 @@ public class BookTable extends AppCompatActivity {
             bookImage.setImageResource(book.getIconId());
 
             bookView.setOnClickListener(v -> {
-                Intent intent = new Intent(this, LessonsTable.class);
+                Intent intent = new Intent(this, LessonsTableActivity.class);
                 intent.putExtra(BOOK_KEY, book);
                 startActivity(intent);
             });
@@ -89,6 +98,11 @@ public class BookTable extends AppCompatActivity {
     }
 
     private void changeLanguage(String languageCode) {
+        getSharedPreferences("app_preferences", MODE_PRIVATE).edit().putString("language", languageCode).apply();
 
+        Intent intent = new Intent(this, BookTableActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }

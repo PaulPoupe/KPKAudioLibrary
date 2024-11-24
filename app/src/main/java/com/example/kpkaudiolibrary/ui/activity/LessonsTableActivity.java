@@ -17,7 +17,7 @@ import com.example.kpkaudiolibrary.R;
 import com.example.kpkaudiolibrary.data.model.Book;
 import com.example.kpkaudiolibrary.data.model.Lesson;
 
-public class LessonsTable extends AppCompatActivity {
+public class LessonsTableActivity extends BaseActivity {
     public static final String LESSON_KEY = "lesson";
     private Book book;
     private TextView bookName;
@@ -61,7 +61,7 @@ public class LessonsTable extends AppCompatActivity {
     private Book takeBook() {
         Bundle arguments = getIntent().getExtras();
         assert arguments != null;
-        book = (Book) arguments.getSerializable(BookTable.BOOK_KEY);
+        book = (Book) arguments.getSerializable(BookTableActivity.BOOK_KEY);
         return book;
     }
 
@@ -78,7 +78,7 @@ public class LessonsTable extends AppCompatActivity {
             lessonName.setText(lesson.getLessonName());
 
             lessonView.setOnClickListener(v -> {
-                Intent intent = new Intent(this, ExercisesTable.class);
+                Intent intent = new Intent(this, ExercisesTableActivity.class);
                 intent.putExtra(LESSON_KEY, lesson);
                 startActivity(intent);
             });

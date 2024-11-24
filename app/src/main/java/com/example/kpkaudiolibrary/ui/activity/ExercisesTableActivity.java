@@ -22,7 +22,7 @@ import com.example.kpkaudiolibrary.data.repository.AudioPlayer;
 
 import java.util.Objects;
 
-public class ExercisesTable extends AppCompatActivity {
+public class ExercisesTableActivity extends BaseActivity {
     private Lesson lesson;
     private TextView lessonName;
     private LinearLayout exercisesList;
@@ -114,7 +114,7 @@ public class ExercisesTable extends AppCompatActivity {
 
     private Lesson takeLesson() {
         Bundle params = getIntent().getExtras();
-        return (Lesson) Objects.requireNonNull(params).getSerializable(LessonsTable.LESSON_KEY);
+        return (Lesson) Objects.requireNonNull(params).getSerializable(LessonsTableActivity.LESSON_KEY);
     }
 
     private void createExercisePanels() {
