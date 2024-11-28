@@ -54,7 +54,9 @@ public abstract class Book implements Iterable<Lesson>, Serializable {
         return iconId;
     }
 
-
+    public String getPath() {
+        return path;
+    }
     private void putLessons(String[] rawExercises) {
         for (var rawExercise : Objects.requireNonNull(rawExercises, "Exercises is null")) {
             int lessonNumber = separateLessonNumber(rawExercise);

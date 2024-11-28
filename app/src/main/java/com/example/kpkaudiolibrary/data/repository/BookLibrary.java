@@ -16,7 +16,7 @@ import java.util.Objects;
 
 public class BookLibrary implements Iterable<Book> {
 
-    private final static String BOOKS_FOLDER = "books";
+    private final static String BOOKS_FOLDER = "textbooks";
     private final static String WORKBOOKS_FOLDER = "workbooks";
     private final ArrayList<Book> books = new ArrayList<>();
 

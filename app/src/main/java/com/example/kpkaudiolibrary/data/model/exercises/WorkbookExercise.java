@@ -1,24 +1,18 @@
 package com.example.kpkaudiolibrary.data.model.exercises;
 
-import androidx.annotation.NonNull;
-
-import com.example.kpkaudiolibrary.data.model.books.Book;
-
 import java.io.Serializable;
-import java.util.Iterator;
-import java.util.TreeMap;
 
 public class WorkbookExercise extends Exercise implements Iterable<Part>, Serializable {
-    public WorkbookExercise(String rawExercise, int exerciseNumber, String path) {
-        super(rawExercise, exerciseNumber, path);
+    public WorkbookExercise(String fileName, int number, String path) {
+        super(fileName, number, path);
     }
 
     @Override
-    protected String getPartKey(String rawExercise) {
+    protected String getPartKey(String fileName) {
         String pattern = ".*_(\\d+|[a-z])\\.mp3";
 
-        if (rawExercise.matches(pattern)) {
-            return rawExercise.replaceAll(pattern, "$1");
+        if (fileName.matches(pattern)) {
+            return fileName.replaceAll(pattern, "$1");
         } else {
             return "1";
         }

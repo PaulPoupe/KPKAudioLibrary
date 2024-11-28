@@ -8,13 +8,13 @@ import java.util.Iterator;
 import java.util.TreeMap;
 
 public abstract class Exercise implements Iterable<Part>, Serializable {
+    protected final TreeMap<String, Part> parts = new TreeMap<>();
     private final String path;
-    private final TreeMap<String, Part> parts = new TreeMap<>();
-    private final int exerciseNumber;
+    private final int number;
 
-    protected Exercise(String rawExercise, int exerciseNumber, String path) {
+    protected Exercise(String rawExercise, int number, String path) {
         this.path = path;
-        this.exerciseNumber = exerciseNumber;
+        this.number = number;
         addPart(rawExercise);
     }
 
@@ -28,8 +28,8 @@ public abstract class Exercise implements Iterable<Part>, Serializable {
         return parts.size();
     }
 
-    public int getExerciseNumber() {
-        return exerciseNumber;
+    public int getNumber() {
+        return number;
     }
 
     public void addPart(String rawExercisePart) {

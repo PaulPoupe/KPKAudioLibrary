@@ -18,7 +18,7 @@ import com.example.kpkaudiolibrary.data.model.lessons.Lesson;
 
 public class LessonsTableActivity extends BaseActivity {
     public static final String LESSON_KEY = "lesson";
-    private Book book;
+    protected Book book;
     private TextView bookName;
     private TextView bookDescription;
     LinearLayout lessonsTable;
@@ -64,7 +64,7 @@ public class LessonsTableActivity extends BaseActivity {
         return book;
     }
 
-    private void createLessonPanels() {
+    protected void createLessonPanels() {
         LayoutInflater inflater = LayoutInflater.from(this);
 
         for (Lesson lesson : book) {
@@ -73,8 +73,8 @@ public class LessonsTableActivity extends BaseActivity {
             TextView lessonNumber = lessonView.findViewById(R.id.lesson_number);
             TextView lessonName = lessonView.findViewById(R.id.lesson_name);
 
-            lessonNumber.setText(String.valueOf(lesson.getLessonNumber()));
-            lessonName.setText(lesson.getLessonName());
+            lessonNumber.setText(String.valueOf(lesson.getNumber()));
+            lessonName.setText(lesson.getName());
 
             lessonView.setOnClickListener(v -> {
                 Intent intent = new Intent(this, ExercisesTableActivity.class);

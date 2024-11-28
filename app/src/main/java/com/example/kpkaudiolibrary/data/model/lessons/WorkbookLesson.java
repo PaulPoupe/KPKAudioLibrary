@@ -17,8 +17,7 @@ public class WorkbookLesson extends Lesson{
         Matcher matcher = pattern.matcher(rawExercise);
 
         if (matcher.find()) {
-            String numberString = matcher.group(1);
-            return Integer.parseInt(numberString);
+            return Integer.parseInt(matcher.group(1));
         } else {
             throw new NumberFormatException("Invalid string format");
         }

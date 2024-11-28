@@ -14,7 +14,7 @@
         android:theme="@style/Theme.KPKAudioLibrary"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activity.activity_book_exercises_table"
+            android:name=".ui.activity.BookLessonsActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.ExercisesTableActivity"

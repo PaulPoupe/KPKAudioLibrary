@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.kpkaudiolibrary.R;
 import com.example.kpkaudiolibrary.data.model.exercises.Exercise;
+import com.example.kpkaudiolibrary.data.model.exercises.TextbookExercise;
 import com.example.kpkaudiolibrary.data.model.exercises.WorkbookExercise;
 import com.example.kpkaudiolibrary.data.model.lessons.Lesson;
 import com.example.kpkaudiolibrary.data.repository.AudioPlayer;
@@ -89,7 +90,7 @@ public class ExercisesTableActivity extends BaseActivity {
     }
 
     private void initializeHeaderOfActivity() {
-        lessonName.setText(lesson.getLessonName());
+        lessonName.setText(lesson.getName());
     }
 
     private void initializeBottomPanelOfActivity() {
@@ -133,13 +134,32 @@ public class ExercisesTableActivity extends BaseActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
 
         for (Exercise exercise : lesson) {
-            View exerciseView = inflater.inflate(R.layout.exercise_item, exercisesList, false);
+            View exerciseView;
 
+
+            if (exercise instanceof WorkbookExercise) {
+                exerciseView = inflater.inflate(R.layout.exercise_item, exercisesList, false);
+                createExercisePartsPanels(exercise, exerciseView.findViewById(R.id.part_buttons_root));
+            } else {
+                TextbookExercise textbookExercise = (TextbookExercise) exercise;
+
+                exerciseView = inflater.inflate(R.layout.exercise_textbook_item, exercisesList, false);
+
+                TextView exerciseName = exerciseView.findViewById(R.id.exercise_name);
+                exerciseName.setText(textbookExercise.getName());
+
+                TextView exerciseStartButton = exerciseView.findViewById(R.id.exercise_start_button);
+                exerciseStartButton.setOnClickListener(v -> {
+                    try {
+                        audioPlayer.play(textbookExercise.getPart());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
             TextView exerciseNumber = exerciseView.findViewById(R.id.exercise_number);
-            LinearLayout exercisePartsRoot = exerciseView.findViewById(R.id.part_buttons_root);
+            exerciseNumber.setText(String.valueOf(exercise.getNumber()));
 
-            exerciseNumber.setText(String.valueOf(exercise.getExerciseNumber()));
-            createExercisePartsPanels(exercise, exercisePartsRoot);
             exercisesList.addView(exerciseView);
         }
     }
