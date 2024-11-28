@@ -10,14 +10,14 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.kpkaudiolibrary.R;
-import com.example.kpkaudiolibrary.data.model.Exercise;
-import com.example.kpkaudiolibrary.data.model.Lesson;
+import com.example.kpkaudiolibrary.data.model.exercises.Exercise;
+import com.example.kpkaudiolibrary.data.model.exercises.WorkbookExercise;
+import com.example.kpkaudiolibrary.data.model.lessons.Lesson;
 import com.example.kpkaudiolibrary.data.repository.AudioPlayer;
 
 import java.util.Objects;

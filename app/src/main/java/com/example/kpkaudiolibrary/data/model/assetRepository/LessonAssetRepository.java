@@ -1,6 +1,6 @@
 package com.example.kpkaudiolibrary.data.model.assetRepository;
 
-import com.example.kpkaudiolibrary.data.model.LanguageLevel;
+import com.example.kpkaudiolibrary.data.model.books.LanguageLevel;
 
 import java.util.List;
 import java.util.Map;

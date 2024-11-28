@@ -5,7 +5,7 @@ import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 
-import com.example.kpkaudiolibrary.data.model.Part;
+import com.example.kpkaudiolibrary.data.model.exercises.Part;
 
 import java.io.IOException;
 

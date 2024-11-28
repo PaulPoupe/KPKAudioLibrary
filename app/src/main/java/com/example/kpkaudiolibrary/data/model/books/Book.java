@@ -1,38 +1,39 @@
-package com.example.kpkaudiolibrary.data.model;
+package com.example.kpkaudiolibrary.data.model.books;
 
 import android.content.Context;
 import android.content.res.AssetManager;
 
 import androidx.annotation.NonNull;
 
+import com.example.kpkaudiolibrary.data.model.lessons.Lesson;
 import com.example.kpkaudiolibrary.data.model.assetRepository.BookAssetRepository;
+import com.example.kpkaudiolibrary.data.model.lessons.TextbookLesson;
+import com.example.kpkaudiolibrary.data.model.lessons.WorkbookLesson;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.TreeMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class Book implements Iterable<Lesson>, Serializable {
+public abstract class Book implements Iterable<Lesson>, Serializable {
     private final TreeMap<Integer, Lesson> lessons = new TreeMap<>();
+    private final String path;
 
     private final LanguageLevel languageLevel;
     private final BookTypes bookType;
     private final int iconId;
 
-    public Book(Context context, String folderName, BookTypes bookType, String directoryPath) throws IOException {
-        BookAssetRepository assetRepository = new BookAssetRepository();
-
-        AssetManager assetManager = context.getAssets();
-        String[] rawExercises = assetManager.list(directoryPath);
-
+    public Book(Context context, String folderName, BookTypes bookType, String path) throws IOException {
         this.bookType = bookType;
+        this.path = path;
         languageLevel = LanguageLevel.valueOf(folderName);
+
+        BookAssetRepository assetRepository = new BookAssetRepository();
         iconId = assetRepository.getBookAsset(languageLevel, bookType).getIconId();
 
-        putLessons(rawExercises);
+        AssetManager assetManager = context.getAssets();
+        putLessons(assetManager.list(path));
     }
 
     @NonNull
@@ -53,30 +54,24 @@ public class Book implements Iterable<Lesson>, Serializable {
         return iconId;
     }
 
-    public Lesson getLesson(Integer lessonNumber) {
-        return lessons.get(lessonNumber);
-    }
 
     private void putLessons(String[] rawExercises) {
         for (var rawExercise : Objects.requireNonNull(rawExercises, "Exercises is null")) {
             int lessonNumber = separateLessonNumber(rawExercise);
-
             if (!lessons.containsKey(lessonNumber)) {
-                lessons.put(lessonNumber, new Lesson(lessonNumber, rawExercise, this));
+
+                switch (bookType) {
+                    case Textbook:
+                        lessons.put(lessonNumber, new TextbookLesson(lessonNumber, rawExercise, this, path));
+                        break;
+                    case Workbook:
+                        lessons.put(lessonNumber, new WorkbookLesson(lessonNumber, rawExercise, this, path));
+                        break;
+                }
             }
             Objects.requireNonNull(lessons.get(lessonNumber)).putExercise(rawExercise);
         }
     }
 
-    private int separateLessonNumber(String rawExercise) {
-        Pattern pattern = Pattern.compile("l(\\d+)");
-        Matcher matcher = pattern.matcher(rawExercise);
-
-        if (matcher.find()) {
-            String numberString = matcher.group(1);
-            return Integer.parseInt(numberString);
-        } else {
-            throw new NumberFormatException("Invalid string format");
-        }
-    }
+    protected abstract int separateLessonNumber(String rawExercise);
 }

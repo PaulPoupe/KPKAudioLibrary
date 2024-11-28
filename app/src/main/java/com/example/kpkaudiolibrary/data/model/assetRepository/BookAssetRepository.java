@@ -1,16 +1,16 @@
 package com.example.kpkaudiolibrary.data.model.assetRepository;
 
 import com.example.kpkaudiolibrary.R;
-import com.example.kpkaudiolibrary.data.model.BookTypes;
-import com.example.kpkaudiolibrary.data.model.LanguageLevel;
+import com.example.kpkaudiolibrary.data.model.books.BookTypes;
+import com.example.kpkaudiolibrary.data.model.books.LanguageLevel;
 
 import java.util.List;
 
 public class BookAssetRepository {
     private final List<BookAsset> bookAssets = List.of(
-            new BookAsset(LanguageLevel.A1, BookTypes.Book, R.mipmap.kpk_book_1),
+            new BookAsset(LanguageLevel.A1, BookTypes.Textbook, R.mipmap.kpk_book_1),
             new BookAsset(LanguageLevel.A1, BookTypes.Workbook, R.mipmap.kpk_workbook_1),
-            new BookAsset(LanguageLevel.A2, BookTypes.Book, R.mipmap.kpk_book_2),
+            new BookAsset(LanguageLevel.A2, BookTypes.Textbook, R.mipmap.kpk_book_2),
             new BookAsset(LanguageLevel.A2, BookTypes.Workbook, R.mipmap.kpk_workbook_2)
     );
 

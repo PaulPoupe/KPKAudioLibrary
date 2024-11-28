@@ -16,8 +16,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.kpkaudiolibrary.R;
-import com.example.kpkaudiolibrary.data.model.BookLibrary;
-import com.example.kpkaudiolibrary.data.model.LanguageLevel;
+import com.example.kpkaudiolibrary.data.repository.BookLibrary;
+import com.example.kpkaudiolibrary.data.model.books.LanguageLevel;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -33,7 +33,7 @@ public class BookTableActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_book_table);
+        setContentView(R.layout.activity_books_table);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

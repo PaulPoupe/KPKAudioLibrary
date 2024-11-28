@@ -8,14 +8,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.kpkaudiolibrary.R;
-import com.example.kpkaudiolibrary.data.model.Book;
-import com.example.kpkaudiolibrary.data.model.Lesson;
+import com.example.kpkaudiolibrary.data.model.books.Book;
+import com.example.kpkaudiolibrary.data.model.lessons.Lesson;
 
 public class LessonsTableActivity extends BaseActivity {
     public static final String LESSON_KEY = "lesson";
@@ -29,7 +28,7 @@ public class LessonsTableActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_lessons_table);
+        setContentView(R.layout.activity_workbook_lessons_table);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -48,7 +47,7 @@ public class LessonsTableActivity extends BaseActivity {
     private void initializeHeaderOfActivity() {
         bookName.setText(getString(R.string.book_name, book.getLanguageLevel().name()));
         switch (book.getBookType()) {
-            case Book:
+            case Textbook:
                 bookDescription.setText(R.string.book_type);
                 break;
 

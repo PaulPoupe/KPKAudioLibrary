@@ -1,18 +1,19 @@
-package com.example.kpkaudiolibrary.data.model;
+package com.example.kpkaudiolibrary.data.model.exercises;
 
 import androidx.annotation.NonNull;
+
 
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-public class Exercise implements Iterable<Part>, Serializable {
-    private final Book book;
+public abstract class Exercise implements Iterable<Part>, Serializable {
+    private final String path;
     private final TreeMap<String, Part> parts = new TreeMap<>();
     private final int exerciseNumber;
 
-    public Exercise(String rawExercise, int exerciseNumber, Book book) {
-        this.book = book;
+    protected Exercise(String rawExercise, int exerciseNumber, String path) {
+        this.path = path;
         this.exerciseNumber = exerciseNumber;
         addPart(rawExercise);
     }
@@ -35,17 +36,9 @@ public class Exercise implements Iterable<Part>, Serializable {
         String partKey = getPartKey(rawExercisePart);
 
         if (!parts.containsKey(partKey)) {
-            parts.put(partKey, new Part(partKey, rawExercisePart, book));
+            parts.put(partKey, new Part(partKey, rawExercisePart, path ));
         }
     }
 
-    private String getPartKey(String rawExercise) {
-        String pattern = ".*_(\\d+|[a-z])\\.mp3";
-
-        if (rawExercise.matches(pattern)) {
-            return rawExercise.replaceAll(pattern, "$1");
-        } else {
-            return "1";
-        }
-    }
+    protected abstract String getPartKey(String rawExercise);
 }

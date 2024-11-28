@@ -1,8 +1,14 @@
-package com.example.kpkaudiolibrary.data.model;
+package com.example.kpkaudiolibrary.data.model.lessons;
 
 import androidx.annotation.NonNull;
 
 import com.example.kpkaudiolibrary.data.model.assetRepository.LessonAssetRepository;
+import com.example.kpkaudiolibrary.data.model.books.Book;
+import com.example.kpkaudiolibrary.data.model.books.BookTypes;
+import com.example.kpkaudiolibrary.data.model.books.LanguageLevel;
+import com.example.kpkaudiolibrary.data.model.exercises.Exercise;
+import com.example.kpkaudiolibrary.data.model.exercises.TextbookExercise;
+import com.example.kpkaudiolibrary.data.model.exercises.WorkbookExercise;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -11,20 +17,22 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Lesson implements Iterable<Exercise>, Serializable {
+public abstract class Lesson implements Iterable<Exercise>, Serializable {
     private final TreeMap<Integer, Exercise> exercises = new TreeMap<>();
+    private final String path;
     private final Book book;
     private final int lessonNumber;
     private final String lessonName;
 
-    public Lesson(int lessonNumber, String rawExercise, Book book) {
-        LessonAssetRepository lessonAssetRepository = new LessonAssetRepository();
+    protected Lesson(int lessonNumber, String rawExercise, Book book, String path) {
         this.book = book;
+        this.path = path;
+        this.lessonNumber = lessonNumber;
+
+        LessonAssetRepository lessonAssetRepository = new LessonAssetRepository();
+        this.lessonName = lessonAssetRepository.getLessonAsset(book.getLanguageLevel(), lessonNumber).getName();
 
         putExercise(rawExercise);
-
-        this.lessonNumber = lessonNumber;
-        this.lessonName = lessonAssetRepository.getLessonAsset(book.getLanguageLevel(), lessonNumber).getName();
     }
 
     @NonNull
@@ -50,24 +58,21 @@ public class Lesson implements Iterable<Exercise>, Serializable {
             throw new NullPointerException("Raw exercise is null");
         }
 
-        int exerciseNumber = getExerciseNumber(rawExercise);
+        int exerciseNumber = separateExerciseNumber(rawExercise);
 
         if (!exercises.containsKey(exerciseNumber)) {
-            exercises.put(exerciseNumber, new Exercise(rawExercise, exerciseNumber, book));
+            switch (book.getBookType()) {
+                case Textbook:
+                    exercises.put(exerciseNumber, new TextbookExercise(rawExercise, exerciseNumber, path));
+                    break;
+                case Workbook:
+                    exercises.put(exerciseNumber, new WorkbookExercise(rawExercise, exerciseNumber, path));
+                    break;
+            }
         } else {
             Objects.requireNonNull(exercises.get(exerciseNumber), "Exercise is null").addPart(rawExercise);
         }
     }
 
-    private int getExerciseNumber(String rawExercise) {
-        Pattern pattern = Pattern.compile("cwiczenie(\\d+)");
-        Matcher matcher = pattern.matcher(rawExercise);
-
-        if (matcher.find()) {
-            String numberString = matcher.group(1);
-            return Integer.parseInt(numberString);
-        } else {
-            throw new NumberFormatException("Invalid string format");
-        }
-    }
+    protected abstract int separateExerciseNumber(String rawExercise);
 }
