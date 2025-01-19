@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "486278949936",
+    "project_id": "kpkaudiolibrary",
+    "storage_bucket": "kpkaudiolibrary.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486278949936:android:22f570a140df3f7d0891f5",
+        "android_client_info": {
+          "package_name": "com.popov_entertainment.KPKAudiolibrary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5jyESIKEmp_lxsVwJGaM_vGLf3oJO7rE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

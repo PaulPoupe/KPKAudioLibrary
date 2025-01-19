@@ -15,5 +15,5 @@
     <string name="play_button">Play</string>
     <string name="replay_button" translatable="false">Replay 5 sec</string>
     <string name="forward_button" translatable="false">Forward 5 sec</string>
-    <string name="exercise_name">Exercise</string>
+    <string name="exercise_name" translatable="false">Exercise</string>
 </resources>
