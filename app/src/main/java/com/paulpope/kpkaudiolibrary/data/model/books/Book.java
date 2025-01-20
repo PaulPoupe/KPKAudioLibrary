@@ -13,14 +13,12 @@ import com.paulpope.kpkaudiolibrary.data.model.lessons.WorkbookLesson;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.TreeMap;
 
 public abstract class Book implements Serializable {
     private final TreeMap<Integer, Lesson> lessons = new TreeMap<>();
     private final String path;
-
     private final LanguageLevel languageLevel;
     private final BookTypes bookType;
     private final int iconId;

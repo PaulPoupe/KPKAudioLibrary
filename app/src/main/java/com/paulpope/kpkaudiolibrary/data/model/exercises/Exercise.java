@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.TreeMap;
 
 public abstract class Exercise implements Serializable {

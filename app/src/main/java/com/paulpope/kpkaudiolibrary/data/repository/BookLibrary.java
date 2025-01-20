@@ -1,8 +1,7 @@
 package com.paulpope.kpkaudiolibrary.data.repository;
 
 import android.content.Context;
-
-import androidx.annotation.NonNull;
+import android.util.Log;
 
 import com.paulpope.kpkaudiolibrary.data.model.books.Book;
 import com.paulpope.kpkaudiolibrary.data.model.books.Textbook;
@@ -16,7 +15,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Objects;
 
 public class BookLibrary implements Serializable {
@@ -43,12 +41,12 @@ public class BookLibrary implements Serializable {
     }
 
     private void updateFiles(Context context) throws IOException {
-        for (var folderName : Objects.requireNonNull(context.getAssets().list(BOOKS_FOLDER))) {
-            books.add(new Textbook(context, folderName, BOOKS_FOLDER + '/' + folderName));
+        for (var childFolderName : Objects.requireNonNull(context.getAssets().list(BOOKS_FOLDER))) {
+            books.add(new Textbook(context, childFolderName, BOOKS_FOLDER + '/' + childFolderName));
         }
 
-        for (var folderName : Objects.requireNonNull(context.getAssets().list(WORKBOOKS_FOLDER))) {
-            books.add(new Workbook(context, folderName, WORKBOOKS_FOLDER + '/' + folderName));
+        for (var childFolderName : Objects.requireNonNull(context.getAssets().list(WORKBOOKS_FOLDER))) {
+            books.add(new Workbook(context, childFolderName, WORKBOOKS_FOLDER + '/' + childFolderName));
         }
 
         saveBooksToFile(context);
@@ -59,7 +57,7 @@ public class BookLibrary implements Serializable {
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(books);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("BookLibrary", "Error saving books to file", e);
         }
     }
 

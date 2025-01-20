@@ -18,7 +18,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.paulpope.kpkaudiolibrary.R;
 import com.paulpope.kpkaudiolibrary.data.repository.BookLibrary;
 import com.paulpope.kpkaudiolibrary.data.model.books.LanguageLevel;
-import com.paulpope.kpkaudiolibrary.data.repository.FireBaseController;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -40,9 +39,6 @@ public class BookTableActivity extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        FireBaseController fireBaseController = new FireBaseController();
-        fireBaseController.getFireBaseUploadedBooks();
 
         bookLibrary = new BookLibrary(this);
         LinearLayout root = findViewById(R.id.layout_main);

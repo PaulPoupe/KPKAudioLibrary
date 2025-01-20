@@ -1,7 +1,5 @@
 package com.paulpope.kpkaudiolibrary.data.model.lessons;
 
-import androidx.annotation.NonNull;
-
 import com.paulpope.kpkaudiolibrary.data.model.assetRepository.LessonAssetRepository;
 import com.paulpope.kpkaudiolibrary.data.model.books.Book;
 import com.paulpope.kpkaudiolibrary.data.model.exercises.Exercise;
@@ -10,7 +8,6 @@ import com.paulpope.kpkaudiolibrary.data.model.exercises.WorkbookExercise;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.TreeMap;
 
@@ -38,10 +35,6 @@ public abstract class Lesson implements Serializable {
 
     public int getNumber() {
         return number;
-    }
-
-    protected String getPath() {
-        return path;
     }
 
     public String getName() {
