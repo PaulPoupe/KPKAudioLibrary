@@ -67,7 +67,7 @@ public class LessonsTableActivity extends BaseActivity {
     protected void createLessonPanels() {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        for (Lesson lesson : book) {
+        for (Lesson lesson : book.getLessons()) {
             View lessonView = inflater.inflate(R.layout.lesson_item, lessonsTable, false);
 
             TextView lessonNumber = lessonView.findViewById(R.id.lesson_number);

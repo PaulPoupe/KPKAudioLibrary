@@ -37,13 +37,5 @@ public class BookAssetRepository {
         public int getIconId() {
             return iconId;
         }
-
-//        public BookTypes getBookType() {
-//            return bookType;
-//        }
-//
-//        public LanguageLevel getLanguageLevel() {
-//            return languageLevel;
-//        }
     }
 }

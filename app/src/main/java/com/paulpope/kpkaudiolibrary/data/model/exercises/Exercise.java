@@ -4,10 +4,11 @@ import androidx.annotation.NonNull;
 
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-public abstract class Exercise implements Iterable<Part>, Serializable {
+public abstract class Exercise implements Serializable {
     protected final TreeMap<String, Part> parts = new TreeMap<>();
     private final String path;
     private final int number;
@@ -19,9 +20,8 @@ public abstract class Exercise implements Iterable<Part>, Serializable {
     }
 
     @NonNull
-    @Override
-    public Iterator<Part> iterator() {
-        return parts.values().iterator();
+    public Collection<Part> getParts() {
+        return parts.values();
     }
 
     public int getPartsCount() {

@@ -15,20 +15,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Objects;
 
-public class BookLibrary implements Iterable<Book>, Serializable {
+public class BookLibrary implements Serializable {
 
     private final static String BOOKS_FOLDER = "textbooks";
     private final static String WORKBOOKS_FOLDER = "workbooks";
     private final ArrayList<Book> books = new ArrayList<>();
-
-    @NonNull
-    @Override
-    public Iterator<Book> iterator() {
-        return books.iterator();
-    }
 
     public BookLibrary(Context context) {
 
@@ -41,6 +36,10 @@ public class BookLibrary implements Iterable<Book>, Serializable {
                 throw new RuntimeException(ex);
             }
         }
+    }
+
+    public Collection<Book> getBooks() {
+        return books;
     }
 
     private void updateFiles(Context context) throws IOException {

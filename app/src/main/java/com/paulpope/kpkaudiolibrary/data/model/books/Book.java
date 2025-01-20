@@ -12,11 +12,12 @@ import com.paulpope.kpkaudiolibrary.data.model.lessons.WorkbookLesson;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.TreeMap;
 
-public abstract class Book implements Iterable<Lesson>, Serializable {
+public abstract class Book implements Serializable {
     private final TreeMap<Integer, Lesson> lessons = new TreeMap<>();
     private final String path;
 
@@ -37,9 +38,8 @@ public abstract class Book implements Iterable<Lesson>, Serializable {
     }
 
     @NonNull
-    @Override
-    public Iterator<Lesson> iterator() {
-        return lessons.values().iterator();
+    public Collection<Lesson> getLessons() {
+        return lessons.values();
     }
 
     public LanguageLevel getLanguageLevel() {

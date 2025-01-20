@@ -68,7 +68,7 @@ public class BookTableActivity extends BaseActivity {
     private void createBooksPanels(ViewGroup root) {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        for (var book : bookLibrary) {
+        for (var book : bookLibrary.getBooks()) {
             View bookView;
 
             if (!booksLayouts.containsKey(book.getLanguageLevel())) {

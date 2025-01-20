@@ -9,11 +9,12 @@ import com.paulpope.kpkaudiolibrary.data.model.exercises.TextbookExercise;
 import com.paulpope.kpkaudiolibrary.data.model.exercises.WorkbookExercise;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.TreeMap;
 
-public abstract class Lesson implements Iterable<Exercise>, Serializable {
+public abstract class Lesson implements Serializable {
     private final TreeMap<Integer, Exercise> exercises = new TreeMap<>();
     private final String path;
     private final Book book;
@@ -31,12 +32,9 @@ public abstract class Lesson implements Iterable<Exercise>, Serializable {
         putExercise(fileName);
     }
 
-    @NonNull
-    @Override
-    public Iterator<Exercise> iterator() {
-        return exercises.values().iterator();
+    public Collection<Exercise> getExercises() {
+        return exercises.values();
     }
-
 
     public int getNumber() {
         return number;

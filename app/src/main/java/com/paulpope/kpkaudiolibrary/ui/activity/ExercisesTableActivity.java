@@ -133,7 +133,7 @@ public class ExercisesTableActivity extends BaseActivity {
     private void createExercisePanels() {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        for (Exercise exercise : lesson) {
+        for (Exercise exercise : lesson.getExercises()) {
             View exerciseView;
 
 
@@ -167,7 +167,7 @@ public class ExercisesTableActivity extends BaseActivity {
     private void createExercisePartsPanels(Exercise exercise, ViewGroup partsRoot) {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        for (var part : exercise) {
+        for (var part : exercise.getParts()) {
             View partView;
 
             if (!(exercise.getPartsCount() == 1)) {

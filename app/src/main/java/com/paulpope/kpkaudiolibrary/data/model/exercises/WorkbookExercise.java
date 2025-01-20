@@ -2,7 +2,7 @@ package com.paulpope.kpkaudiolibrary.data.model.exercises;
 
 import java.io.Serializable;
 
-public class WorkbookExercise extends Exercise implements Iterable<Part>, Serializable {
+public class WorkbookExercise extends Exercise implements Serializable {
     public WorkbookExercise(String fileName, int number, String path) {
         super(fileName, number, path);
     }
