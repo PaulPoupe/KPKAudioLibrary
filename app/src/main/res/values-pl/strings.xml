@@ -7,4 +7,5 @@
     <string name="play_button">Grać</string>
     <string name="book_type">Podręcznik</string>
     <string name="workbook_type">Zeszyt cwiczeń</string>
+    <string name="download_button">Pobierać</string>
 </resources>

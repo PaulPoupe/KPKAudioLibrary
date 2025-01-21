@@ -33,7 +33,8 @@ android {
 }
 
 dependencies {
-    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.appcheck.playintegrity)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
