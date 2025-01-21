@@ -16,7 +16,5 @@ public class EntryPoint extends Application {
         super.onCreate();
         NameExtractor.initialize(this);
         FirebaseApp.initializeApp(this);
-        FirebaseController firebaseController = new FirebaseController();
-        ArrayList<BookRef> r = (ArrayList<BookRef>) firebaseController.getAllFireBaseBooks();
     }
 }

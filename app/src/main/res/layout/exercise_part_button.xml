@@ -1,6 +1,5 @@
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/exercise_part_button"
     android:layout_width="45dp"
     android:layout_height="40dp"

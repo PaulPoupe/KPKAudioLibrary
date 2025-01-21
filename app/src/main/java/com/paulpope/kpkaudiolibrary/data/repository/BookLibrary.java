@@ -15,9 +15,11 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 public class BookLibrary implements Serializable {
+    private static final String TAG = "BookLibrary";
 
     private final static String BOOKS_FOLDER = "textbooks";
     private final static String WORKBOOKS_FOLDER = "workbooks";
@@ -36,7 +38,7 @@ public class BookLibrary implements Serializable {
         }
     }
 
-    public Collection<Book> getBooks() {
+    public List<Book> getBooks() {
         return books;
     }
 
@@ -57,7 +59,7 @@ public class BookLibrary implements Serializable {
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(books);
         } catch (IOException e) {
-            Log.e("BookLibrary", "Error saving books to file", e);
+            Log.e(TAG, "Error saving books to file", e);
         }
     }
 

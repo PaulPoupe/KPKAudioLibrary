@@ -7,35 +7,62 @@ import com.google.firebase.storage.StorageReference;
 import com.paulpope.kpkaudiolibrary.data.model.books.BookRef;
 import com.paulpope.kpkaudiolibrary.data.model.books.BookTypes;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FirebaseController {
-    public Collection<BookRef> getAllFireBaseBooks() {
-        ArrayList<BookRef> booksRefs = new ArrayList<>();
-
+    private static final String TAG = "FirebaseController";
+    public void getAllFireBaseBooks(FirebaseBooksCallback callback) {
+        List<BookRef> booksRefs = new CopyOnWriteArrayList<>();
         StorageReference rootRef = FirebaseStorage.getInstance().getReference();
         StorageReference textbooksFolderRef = rootRef.child("Textbook/");
         StorageReference workbookFoldrRef = rootRef.child("Workbook/");
 
+
+        final int[] tasksCompleted = {0};
+
+
+        Runnable onComplete = () -> {
+            if (tasksCompleted[0] == 2) {
+                callback.onBooksLoaded(booksRefs);
+                Log.d(TAG, "Firebase gave books refs");
+            }
+        };
+
         textbooksFolderRef.listAll()
                 .addOnSuccessListener(listResult -> {
                     for (StorageReference textbookRef : listResult.getPrefixes()) {
-                        Log.d("Firebase", "Textbook name: " + textbookRef.getName());
-                        booksRefs.add(new BookRef(textbookRef.getName(), BookTypes.Textbook));
+                        Log.d(TAG, "Textbook name: " + textbookRef.getName());
+                        booksRefs.add(new BookRef(textbookRef.getName(), BookTypes.Textbook, textbookRef));
                     }
-                }).addOnFailureListener(e -> {
-                    Log.e("Firebase", "Ошибка: " + e.getMessage(), e);
-                });;
-        workbookFoldrRef.listAll().
-                addOnSuccessListener(listResult -> {
-                    for(StorageReference workbookRef : listResult.getPrefixes()){
-                    Log.d("Firebase", "Workbook name: " + workbookRef.getName());
-                    booksRefs.add(new BookRef(workbookRef.getName(), BookTypes.Workbook));
+                    synchronized (tasksCompleted) {
+                        tasksCompleted[0]++;
                     }
+                    onComplete.run();
                 }).addOnFailureListener(e -> {
-                    Log.e("Firebase", "Ошибка: " + e.getMessage(), e);
+                    Log.e(TAG, "Error: " + e.getMessage(), e);
+                    synchronized (tasksCompleted) {
+                        tasksCompleted[0]++;
+                    }
+                    onComplete.run();
                 });
-        return booksRefs;
+
+        workbookFoldrRef.listAll()
+                .addOnSuccessListener(listResult -> {
+                    for (StorageReference workbookRef : listResult.getPrefixes()) {
+                        Log.d(TAG, "Workbook name: " + workbookRef.getName());
+                        booksRefs.add(new BookRef(workbookRef.getName(), BookTypes.Workbook, workbookRef));
+                    }
+                    synchronized (tasksCompleted) {
+                        tasksCompleted[0]++;
+                    }
+                    onComplete.run();
+                }).addOnFailureListener(e -> {
+                    Log.e(TAG, "Error: " + e.getMessage(), e);
+                    synchronized (tasksCompleted) {
+                        tasksCompleted[0]++;
+                    }
+                    onComplete.run();
+                });
     }
 }

@@ -1,5 +1,6 @@
 package com.paulpope.kpkaudiolibrary.data.model.books;
 
+import com.google.firebase.storage.StorageReference;
 import com.paulpope.kpkaudiolibrary.data.model.assetRepository.BookAssetRepository;
 
 import java.io.IOException;
@@ -8,9 +9,11 @@ public class BookRef {
     private final LanguageLevel languageLevel;
     private final BookTypes bookType;
     private final int iconId;
+    private final StorageReference ref;
 
-    public BookRef(String folderName, BookTypes bookType){
+    public BookRef(String folderName, BookTypes bookType, StorageReference ref){
         this.bookType = bookType;
+        this.ref = ref;
         languageLevel = LanguageLevel.valueOf(folderName);
 
         BookAssetRepository assetRepository = new BookAssetRepository();
@@ -33,7 +36,7 @@ public class BookRef {
             return otherBookRef.languageLevel == this.languageLevel && otherBookRef.bookType == this.bookType;
         }else{
             Book otherBook = (Book) obj;
-            return otherBook.getLanguageLevel() == this.languageLevel && otherBook.getBookType() == this.bookType;
+            return otherBook.getLanguageLevel().equals(this.languageLevel)  && otherBook.getBookType().equals(this.bookType);
         }
     }
 

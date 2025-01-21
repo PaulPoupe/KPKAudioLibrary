@@ -16,15 +16,22 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.paulpope.kpkaudiolibrary.R;
+import com.paulpope.kpkaudiolibrary.data.model.books.BookRef;
 import com.paulpope.kpkaudiolibrary.data.repository.BookLibrary;
 import com.paulpope.kpkaudiolibrary.data.model.books.LanguageLevel;
+import com.paulpope.kpkaudiolibrary.data.repository.BooksSorter;
+import com.paulpope.kpkaudiolibrary.data.repository.FirebaseController;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.TreeMap;
 
 
 public class BookTableActivity extends BaseActivity {
+    private final static String TAG = "BookTableActivity";
     public final static String BOOK_KEY = "book";
     private BookLibrary bookLibrary;
     private final TreeMap<LanguageLevel, LinearLayout> booksLayouts = new TreeMap<>();
@@ -40,11 +47,19 @@ public class BookTableActivity extends BaseActivity {
             return insets;
         });
 
+        FirebaseController firebaseController = new FirebaseController();
+
         bookLibrary = new BookLibrary(this);
         LinearLayout root = findViewById(R.id.layout_main);
 
         initializeHeaderOfActivity();
         createBooksPanels(root);
+
+        firebaseController.getAllFireBaseBooks(bookRefs -> {
+            BooksSorter booksSorter = new BooksSorter();
+            List<BookRef> sortedBooksRefs = booksSorter.getNotUploadedBooksRefs(bookRefs, bookLibrary.getBooks());
+            createBooksDownloadsPanels(root, sortedBooksRefs);
+        });
     }
 
     private void initializeHeaderOfActivity() {
@@ -84,6 +99,30 @@ public class BookTableActivity extends BaseActivity {
             });
 
             Objects.requireNonNull(booksLayouts.get(book.getLanguageLevel())).addView(bookView);
+        }
+    }
+
+    private void createBooksDownloadsPanels(ViewGroup root, Collection<BookRef> booksRefs){
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        for(var bookRef : booksRefs){
+        View bookRefView;
+
+        if (!booksLayouts.containsKey(bookRef.getLanguageLevel())) {
+            booksLayouts.put(bookRef.getLanguageLevel(), createBooksLayout(root));
+        }
+        bookRefView = inflater.inflate(R.layout.not_uploaded_book_item, booksLayouts.get(bookRef.getLanguageLevel()), false);
+            TextView bookName = bookRefView.findViewById(R.id.book_name);
+            ImageView bookImage = bookRefView.findViewById(R.id.book_image);
+            View downloadButton = bookRefView.findViewById(R.id.download_button);
+
+            bookName.setText(getString(R.string.book_name, bookRef.getLanguageLevel().name()));
+            bookImage.setImageResource(bookRef.getIconId());
+
+            downloadButton.setOnClickListener(v -> {
+
+            });
+            Objects.requireNonNull(booksLayouts.get(bookRef.getLanguageLevel())).addView(bookRefView);
         }
     }
 
