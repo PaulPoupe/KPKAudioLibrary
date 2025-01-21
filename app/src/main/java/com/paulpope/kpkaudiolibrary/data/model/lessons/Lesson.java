@@ -6,6 +6,7 @@ import com.paulpope.kpkaudiolibrary.data.model.exercises.Exercise;
 import com.paulpope.kpkaudiolibrary.data.model.exercises.TextbookExercise;
 import com.paulpope.kpkaudiolibrary.data.model.exercises.WorkbookExercise;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
@@ -13,14 +14,12 @@ import java.util.TreeMap;
 
 public abstract class Lesson implements Serializable {
     private final TreeMap<Integer, Exercise> exercises = new TreeMap<>();
-    private final String path;
     private final Book book;
     private final int number;
     private final String name;
 
-    protected Lesson(int number, String fileName, Book book, String path) {
+    protected Lesson(int number, File fileName, Book book) {
         this.book = book;
-        this.path = path;
         this.number = number;
 
         LessonAssetRepository lessonAssetRepository = new LessonAssetRepository();
@@ -41,7 +40,7 @@ public abstract class Lesson implements Serializable {
         return name;
     }
 
-    public void putExercise(String rawExercise) throws NullPointerException {
+    public void putExercise(File rawExercise) throws NullPointerException {
         if (rawExercise == null) {
             throw new NullPointerException("Raw exercise is null");
         }
@@ -52,10 +51,10 @@ public abstract class Lesson implements Serializable {
         if (!exercises.containsKey(exerciseNumber)) {
             switch (book.getBookType()) {
                 case Textbook:
-                    exercises.put(exerciseNumber, new TextbookExercise(rawExercise, exerciseNumber, path));
+                    exercises.put(exerciseNumber, new TextbookExercise(rawExercise, exerciseNumber));
                     break;
                 case Workbook:
-                    exercises.put(exerciseNumber, new WorkbookExercise(rawExercise, exerciseNumber, path));
+                    exercises.put(exerciseNumber, new WorkbookExercise(rawExercise, exerciseNumber));
                     break;
             }
         } else {
@@ -63,5 +62,5 @@ public abstract class Lesson implements Serializable {
         }
     }
 
-    protected abstract int separateExerciseNumber(String rawExercise);
+    protected abstract int separateExerciseNumber(File rawExercise);
 }

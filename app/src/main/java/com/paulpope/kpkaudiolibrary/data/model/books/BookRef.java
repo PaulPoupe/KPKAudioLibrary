@@ -51,4 +51,8 @@ public class BookRef {
     public LanguageLevel getLanguageLevel() {
         return languageLevel;
     }
+
+    public StorageReference getRef() {
+        return ref;
+    }
 }

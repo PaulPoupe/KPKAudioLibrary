@@ -17,12 +17,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.paulpope.kpkaudiolibrary.R;
 import com.paulpope.kpkaudiolibrary.data.model.books.BookRef;
+import com.paulpope.kpkaudiolibrary.data.repository.BookDownloader;
 import com.paulpope.kpkaudiolibrary.data.repository.BookLibrary;
 import com.paulpope.kpkaudiolibrary.data.model.books.LanguageLevel;
 import com.paulpope.kpkaudiolibrary.data.repository.BooksSorter;
 import com.paulpope.kpkaudiolibrary.data.repository.FirebaseController;
 
-import java.util.ArrayList;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -120,7 +121,11 @@ public class BookTableActivity extends BaseActivity {
             bookImage.setImageResource(bookRef.getIconId());
 
             downloadButton.setOnClickListener(v -> {
-
+                BookDownloader bookDownloader = new BookDownloader();
+                bookDownloader.downloadBooks(this, bookRef, () -> {
+                        bookLibrary.deleteBooksDataFile(this);
+                        recreate();
+                });
             });
             Objects.requireNonNull(booksLayouts.get(bookRef.getLanguageLevel())).addView(bookRefView);
         }

@@ -17,11 +17,9 @@ public class NameExtractor {
     public static void initialize(Context context) {
         NameExtractor.context = context;
     }
-    public static String extractName(String assetFilePath) throws Exception {
+    public static String extractName(File assetFilePath) throws Exception {
 
-        File tempFile = copyAssetToTempFile(context, assetFilePath);
-
-        Mp3File mp3file = new Mp3File(tempFile.getAbsolutePath());
+        Mp3File mp3file = new Mp3File(assetFilePath.getAbsolutePath());
 
         if (mp3file.hasId3v2Tag()) {
             ID3v2 id3v2Tag = mp3file.getId3v2Tag();

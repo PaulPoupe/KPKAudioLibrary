@@ -4,20 +4,21 @@ import android.content.Context;
 
 import com.paulpope.kpkaudiolibrary.data.model.assetRepository.NameExtractor;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Textbook extends Book{
 
-    public Textbook(Context context, String folderName, String directoryPath) throws IOException {
+    public Textbook(Context context, String folderName, File directoryPath) throws IOException {
         super(context, folderName, BookTypes.Textbook, directoryPath);
     }
 
     @Override
-    protected int separateLessonNumber(String rawExercise) {
+    protected int separateLessonNumber(File rawExercise) {
         try {
-            String fullName = NameExtractor.extractName(getPath() + "/" + rawExercise);
+            String fullName = NameExtractor.extractName(rawExercise);
 
             Pattern pattern = Pattern.compile("Lekcja\\s(\\d+)");
             Matcher matcher = pattern.matcher(fullName);

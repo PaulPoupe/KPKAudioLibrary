@@ -2,16 +2,18 @@ package com.paulpope.kpkaudiolibrary.data.model.exercises;
 
 import com.paulpope.kpkaudiolibrary.data.model.assetRepository.NameExtractor;
 
+import java.io.File;
+
 public class TextbookExercise extends Exercise {
     private final String name;
 
-    public TextbookExercise(String fileName, int number, String path) {
-        super(fileName, number, path);
-        name = extractName(fileName, path);
+    public TextbookExercise(File fileName, int number) {
+        super(fileName, number);
+        name = extractName(fileName);
     }
 
     @Override
-    protected String getPartKey(String fileName) {
+    protected String getPartKey(File fileName) {
         return "1";
     }
 
@@ -23,9 +25,9 @@ public class TextbookExercise extends Exercise {
        return parts.get("1");
     }
 
-    private String extractName(String fileName, String path) {
+    private String extractName(File fileName) {
         try {
-            String fullName = NameExtractor.extractName(path + "/" + fileName);
+            String fullName = NameExtractor.extractName(fileName);
             String delimiter = ", ";
             int delimiterIndex = fullName.indexOf(delimiter);
 

@@ -51,10 +51,8 @@ public class AudioPlayer {
             mediaPlayer.reset();
             isAudioLoaded = false;
 
-            AssetFileDescriptor audioAfd = getAssetFileDescriptor(part.getAudioFilePath());
 
-            mediaPlayer.setDataSource(audioAfd.getFileDescriptor(), audioAfd.getStartOffset(), audioAfd.getLength());
-            audioAfd.close();
+            mediaPlayer.setDataSource(part.getAudioFilePath());
 
             mediaPlayer.prepare();
             mediaPlayer.start();

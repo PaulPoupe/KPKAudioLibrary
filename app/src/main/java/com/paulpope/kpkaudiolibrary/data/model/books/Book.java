@@ -10,6 +10,7 @@ import com.paulpope.kpkaudiolibrary.data.model.assetRepository.BookAssetReposito
 import com.paulpope.kpkaudiolibrary.data.model.lessons.TextbookLesson;
 import com.paulpope.kpkaudiolibrary.data.model.lessons.WorkbookLesson;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
@@ -18,21 +19,19 @@ import java.util.TreeMap;
 
 public abstract class Book implements Serializable {
     private final TreeMap<Integer, Lesson> lessons = new TreeMap<>();
-    private final String path;
     private final LanguageLevel languageLevel;
     private final BookTypes bookType;
     private final int iconId;
 
-    public Book(Context context, String folderName, BookTypes bookType, String path) throws IOException {
+    public Book(Context context, String folderName, BookTypes bookType, File folder) throws IOException {
         this.bookType = bookType;
-        this.path = path;
         languageLevel = LanguageLevel.valueOf(folderName);
 
         BookAssetRepository assetRepository = new BookAssetRepository();
         iconId = assetRepository.getBookAsset(languageLevel, bookType).getIconId();
 
-        AssetManager assetManager = context.getAssets();
-        putLessons(assetManager.list(path));
+        File[] files = folder.listFiles();
+        putLessons(files);
     }
 
     @NonNull
@@ -51,21 +50,17 @@ public abstract class Book implements Serializable {
     public int getIconId() {
         return iconId;
     }
-
-    public String getPath() {
-        return path;
-    }
-    private void putLessons(String[] rawExercises) {
+    private void putLessons(File[] rawExercises) {
         for (var rawExercise : Objects.requireNonNull(rawExercises, "Exercises is null")) {
             int lessonNumber = separateLessonNumber(rawExercise);
             if (!lessons.containsKey(lessonNumber)) {
 
                 switch (bookType) {
                     case Textbook:
-                        lessons.put(lessonNumber, new TextbookLesson(lessonNumber, rawExercise, this, path));
+                        lessons.put(lessonNumber, new TextbookLesson(lessonNumber, rawExercise, this));
                         break;
                     case Workbook:
-                        lessons.put(lessonNumber, new WorkbookLesson(lessonNumber, rawExercise, this, path));
+                        lessons.put(lessonNumber, new WorkbookLesson(lessonNumber, rawExercise, this));
                         break;
                 }
             }
@@ -73,5 +68,5 @@ public abstract class Book implements Serializable {
         }
     }
 
-    protected abstract int separateLessonNumber(String rawExercise);
+    protected abstract int separateLessonNumber(File rawExercise);
 }
