@@ -17,4 +17,5 @@
     <string name="forward_button" translatable="false">Forward 5 sec</string>
     <string name="exercise_name" translatable="false">Exercise</string>
     <string name="download_button">Download</string>
+    <string name="downloading_book">Downloading book...</string>
 </resources>
