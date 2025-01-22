@@ -37,17 +37,30 @@ public class LessonAssetRepository {
                     new LessonAsset("Same problemy!")
             ),
             LanguageLevel.A2, List.of(
-                    new LessonAsset("lesson 1"),
-                    new LessonAsset("lesson 2"),
-                    new LessonAsset("lesson 3"),
-                    new LessonAsset("lesson 4"),
-                    new LessonAsset("lesson 5"),
-                    new LessonAsset("lesson 6"),
-                    new LessonAsset("lesson 7"),
-                    new LessonAsset("lesson 8"),
-                    new LessonAsset("lesson 9"),
-                    new LessonAsset("lesson 10"))
-    );
+                    new LessonAsset("Przedstawmy się"),
+                    new LessonAsset("Dopełniacz jest wszędzie"),
+                    new LessonAsset("Teatr żywych fotografii"),
+                    new LessonAsset("Dwaj, trzej, czterej"),
+                    new LessonAsset("Jacy oni są straszni!"),
+                    new LessonAsset("Edukacja"),
+                    new LessonAsset("Praca"),
+                    new LessonAsset("Ja swoje wiem!"),
+                    new LessonAsset("Nie zapomnij paszportu!"),
+                    new LessonAsset("Kocham Cię Polsko!"),
+                    new LessonAsset("Wejść czy wyjść?"),
+                    new LessonAsset("Wjazd czy wyjazd?"),
+                    new LessonAsset("Komu bije dzwon?"),
+                    new LessonAsset("Zaduszki"),
+                    new LessonAsset("Wesołych Świąt!"),
+                    new LessonAsset("Przygody, przeżycia, wspomnienia"),
+                    new LessonAsset("Trochę historii."),
+                    new LessonAsset("Królestwo zwierząt"),
+                    new LessonAsset("Zielono mi!"),
+                    new LessonAsset("Rysopis Polaka konsumenta"),
+                    new LessonAsset("Sztuka a piractwo"),
+                    new LessonAsset("Muzeum? Dlaczego nie!"),
+                    new LessonAsset("Czas na egzamin!"))
+            );
 
     public LessonAsset getLessonAsset(LanguageLevel languageLevel, int lessonNumber) {
         return Objects.requireNonNull(lessons.get(languageLevel)).get(lessonNumber - 1);
