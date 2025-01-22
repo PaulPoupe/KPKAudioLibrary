@@ -15,7 +15,7 @@ import java.io.File;
 public class BookDownloader {
     private static final String TAG = "FirebaseBookDownloader";
 
-    public void downloadBooks(Context context, BookRef bookRef, DownloadCompletedCallback callback) {
+    public void downloadBooks(Context context, BookRef bookRef,DownloadUiUpdateCallback uiUpdatedCallback , DownloadCompletedCallback callback) {
         // Определяем базовую папку (textbooks или workbooks)
         String baseFolder = bookRef.getBookType() == BookTypes.Textbook ? TEXTBOOKS_FOLDER : WORKBOOKS_FOLDER;
 
@@ -40,15 +40,17 @@ public class BookDownloader {
         folderRef.listAll()
                 .addOnSuccessListener(listResult -> {
                     for (StorageReference fileRef : listResult.getItems()) {
-                        downloadFile(fileRef, targetFolder, tasksCompleted, listResult.getItems().size(), callback);
+                        downloadFile(fileRef, targetFolder, tasksCompleted, listResult.getItems().size(), uiUpdatedCallback, callback);
                     }
                 })
                 .addOnFailureListener(e -> Log.e(TAG, "Failed to list files in folder: " + folderRef.getPath(), e));
     }
 
-    private void downloadFile(StorageReference fileRef, File targetFolder, int[] tasksCompleted, int tasksCount, DownloadCompletedCallback callback) {
+    private void downloadFile(StorageReference fileRef, File targetFolder, int[] tasksCompleted, int tasksCount,DownloadUiUpdateCallback uiUpdatedCallback, DownloadCompletedCallback callback) {
 
         Runnable onComplete = () -> {
+
+            uiUpdatedCallback.onUpdate((int) ((tasksCompleted[0] * 100.0) / tasksCount));
             if (tasksCompleted[0] == tasksCount) {
                 callback.onBookLoaded();
                 Log.d(TAG, "Firebase downloaded book successfully");

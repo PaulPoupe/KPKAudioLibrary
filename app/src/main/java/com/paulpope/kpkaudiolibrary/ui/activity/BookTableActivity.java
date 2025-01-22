@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -21,6 +22,8 @@ import com.paulpope.kpkaudiolibrary.data.repository.BookDownloader;
 import com.paulpope.kpkaudiolibrary.data.repository.BookLibrary;
 import com.paulpope.kpkaudiolibrary.data.model.books.LanguageLevel;
 import com.paulpope.kpkaudiolibrary.data.repository.BooksSorter;
+import com.paulpope.kpkaudiolibrary.data.repository.Deleter;
+import com.paulpope.kpkaudiolibrary.data.repository.DownloadUiUpdateCallback;
 import com.paulpope.kpkaudiolibrary.data.repository.FirebaseController;
 
 
@@ -32,7 +35,6 @@ import java.util.TreeMap;
 
 
 public class BookTableActivity extends BaseActivity {
-    private final static String TAG = "BookTableActivity";
     public final static String BOOK_KEY = "book";
     private BookLibrary bookLibrary;
     private final TreeMap<LanguageLevel, LinearLayout> booksLayouts = new TreeMap<>();
@@ -92,6 +94,13 @@ public class BookTableActivity extends BaseActivity {
 
             bookName.setText(getString(R.string.book_name, book.getLanguageLevel().name()));
             bookImage.setImageResource(book.getIconId());
+            View deleteButton = bookView.findViewById(R.id.delete_button);
+            deleteButton.setOnClickListener(v -> {
+                Deleter deleter = new Deleter();
+                deleter.deleteDirectory(book.getFolder());
+                bookLibrary.deleteBooksDataFile(this);
+                recreate();
+            });
 
             bookView.setOnClickListener(v -> {
                 Intent intent = new Intent(this, LessonsTableActivity.class);
@@ -119,10 +128,21 @@ public class BookTableActivity extends BaseActivity {
 
             bookName.setText(getString(R.string.book_name, bookRef.getLanguageLevel().name()));
             bookImage.setImageResource(bookRef.getIconId());
+            ProgressBar horizontalProgressBar = bookRefView.findViewById(R.id.horizontalProgressBar);
+
+            DownloadUiUpdateCallback updateCallback = progress ->
+                    runOnUiThread(() -> {
+                        horizontalProgressBar.setVisibility(View.VISIBLE);
+                        horizontalProgressBar.setProgress(progress);
+                        downloadButton.setVisibility(View.GONE);
+                        if (progress == 100) {
+                            horizontalProgressBar.setVisibility(View.GONE);
+                        }
+                    });
 
             downloadButton.setOnClickListener(v -> {
                 BookDownloader bookDownloader = new BookDownloader();
-                bookDownloader.downloadBooks(this, bookRef, () -> {
+                bookDownloader.downloadBooks(this, bookRef, updateCallback, () -> {
                         bookLibrary.deleteBooksDataFile(this);
                         recreate();
                 });

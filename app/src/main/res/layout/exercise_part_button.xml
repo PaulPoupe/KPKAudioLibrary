@@ -3,11 +3,11 @@
     android:id="@+id/exercise_part_button"
     android:layout_width="45dp"
     android:layout_height="40dp"
-    android:background="@drawable/exercise_part_item_background"
+    android:background="@drawable/primary_pressable_superellipse_background"
     android:layout_marginStart="5dp"
     android:layout_marginEnd="5dp"
     android:text="@string/exercise_part_index_placeholder"
     android:textSize="30sp"
     android:textStyle="bold"
     android:textAlignment="center"
-    android:textColor="@color/colorWhite"/>
+    android:textColor="@color/colorIconTint"/>

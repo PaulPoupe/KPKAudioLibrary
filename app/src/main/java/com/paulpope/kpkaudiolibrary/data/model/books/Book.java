@@ -21,11 +21,13 @@ public abstract class Book implements Serializable {
     private final TreeMap<Integer, Lesson> lessons = new TreeMap<>();
     private final LanguageLevel languageLevel;
     private final BookTypes bookType;
+    private final File folder;
     private final int iconId;
 
     public Book(Context context, String folderName, BookTypes bookType, File folder) throws IOException {
         this.bookType = bookType;
         languageLevel = LanguageLevel.valueOf(folderName);
+        this.folder = folder;
 
         BookAssetRepository assetRepository = new BookAssetRepository();
         iconId = assetRepository.getBookAsset(languageLevel, bookType).getIconId();
@@ -69,4 +71,8 @@ public abstract class Book implements Serializable {
     }
 
     protected abstract int separateLessonNumber(File rawExercise);
+
+    public File getFolder() {
+        return folder;
+    }
 }
